@@ -8,8 +8,6 @@ Download and install ffmpeg.   Download and install python3.10.10.  Use 'pip' an
 'python3.10' to install dependencies 'configparser' and 'openai-whisper' respectively.  The paths will get set automatically to point 'python' at 'python3.10'.
 Start Google Drive if installed.  Then run 'whisper-to-write.py' using 'python'
 
-Be sure that your user account name has no spaces before starting this.   If it does, change it now.   Go to 'Control Panel - User Accounts - Change the account name'
-
 ## Download the repository [fwgWhisper](http://www.github.com/davegutz/fwgWhisper)
 For most people it's easiest to click on the green '<> Code' box and download the '.zip' file.  Extract to Documents/GitHub.  Make that folder if you need to.  When done, there will be a folder similar to 'fwgWhisper-main' where 'main' refers to the Current Branch in GitHub.  Install and use [NanaZip](https://apps.microsoft.com/store/detail/nanazip/9N8G7TSCL18R?hl=en-us&gl=us&rtc=1)
 
