@@ -1,6 +1,5 @@
 __pycache__/*
 *.odt#
-*.odt#
 .eggs/*
 build/*
 .DS_Store

@@ -26,7 +26,7 @@ python3 whisper-to-write.py
    - You will now see a new file 'whisper-to-write' shortcut on the desktop
    - Right-click on 'whisper-to-write' and open with an editor.  It will look something like, with your username in place of '<user>'.
 
-```commandline
+```
 [Desktop Entry]
 Name=whisper-to-write
 Type=Application
@@ -36,13 +36,13 @@ Terminal=true
 Icon=/home/<username>/.local/lib/python3.10/site-packages/pyshortcuts/icons/py.ico
 Exec=/usr/bin/python3.10 /home/<user>/Documents/GitHub/fwgWhisper/whisper-to-write.py 
 ```
-   - Change the 'Path' line to something more useful so it opens to where your recordings are:
-```commandline
+   - Change the 'Path' line to something more useful so that it opens to where your recordings are:
+```
 Path=/home/<username>/Documents/GitHub/fwgWhisper
 ```
-   - After you run this once in a location of audio files, edit 'whisper-to-write.pref' to change the moddel.
+   - After you run this once in a location of audio files, edit 'whisper-to-write.pref' to change the model.
 
-```commandline
+```
 Exec=/usr/bin/python3.10 /home/<username>/Documents/GitHub/fwgWhisper/whisper-to-write.py small.en
 ``` 
 

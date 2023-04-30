@@ -6,7 +6,7 @@ Synopsis: Windows go to the app store.   Linux run a command.   Apple download a
 
 ## What settings do I need?
 The most important setting is mono.    You don't need high quality - the tool has been tuned for standard recorders.   160 kbps is more than enough.   96 would work.  Raw recording should be 44100 Hz 32-bit float.
-```commandline
+```
 Audacity - Edit Preferences
             Directories - Save:  <home>/Recordings
             Devices:  Recording - 1 Mono
@@ -19,7 +19,7 @@ Audacity - Audio Setup -
 ```
 
 ## Running it:  how?
-```commandline
+```
 Audacity - Audio Setup - 
            Record - press red button, press black square to stop (counterintuitive).  Make sure you are recording mono (one track visible:  Audio 1 # 1)
            File - Export - Export audio - M4A, Quality 160 kbps - Save

@@ -440,7 +440,7 @@ def screened(extension, source, result, basename):
     elif source_stat_st_mtime < result_stat_st_mtime:
         _choice = overwrite_query('Overwrite result file ' + basename + '?' + '\n' +
                                   "'yes' and 'no' refer to this file.  Your audio is always preserved." + '\n' +
-                                  "'all' and 'none' refer to remaining result files as well.  'exit' is to quit" + '\n' +
+                                  "'all' and 'none' refer to remaining result files as well. 'exit' is to quit" + '\n' +
                                   "If this file result does not exist it will be generated now unless you 'exit'.")
         if _choice == 'exit':
             print('Quitting...')

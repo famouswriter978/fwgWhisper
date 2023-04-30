@@ -92,7 +92,8 @@ python3 whisper-to-write.py
         [whisper-to-write.desktop](../whisper-to-write.desktop)
    - Change the 'Path' line to something more useful, so it opens to where your recordings are:
 `Path=/home/<username>/Documents/GitHub/fwgWhisper`
-   - If you want, make life easier by adding ' small.en' after the 'Target:' data to force it to always run the excellent small model without having to select it everytime the program runs
+
+   - If you want, make life easier by adding 'small.en' after the 'Target:' data to force it to always run the excellent small model without having to select it everytime the program runs
 
    - 'Exec=/usr/bin/python3.10 /home/<username>/Documents/GitHub/fwgWhisper/whisper-to-write.py small.en
 
