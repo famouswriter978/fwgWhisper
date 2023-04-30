@@ -12,7 +12,7 @@ Then run 'whisper-to-write.py' using 'python3.10.'
 # INSTALL
 
 ### Download the repository [fwgWhisper](http://www.github.com/davegutz/fwgWhisper)
-For most people it's easiest to click on the green '<> Code' box and download the '.zip' file.  Extract to Documents/GitHub.  Make that folder if you need to.  When done, there will be a folder similar to 'fwgWhisper-alpha' where 'main' refers to the Current Branch in GitHub.  Install and use [NanaZip](https://apps.microsoft.com/store/detail/nanazip/9N8G7TSCL18R?hl=en-us&gl=us&rtc=1), I recommend, if you need such a tool to unpack fwgWhisper.
+For most people it's easiest to click on the green '<> Code' box and download the '.zip' file.  Extract to Documents/GitHub.  Make that folder if you need to.  When done, there will be a folder similar to 'fwgWhisper-main' where 'main' refers to the Current Branch in GitHub.  Install and use [NanaZip](https://apps.microsoft.com/store/detail/nanazip/9N8G7TSCL18R?hl=en-us&gl=us&rtc=1), I recommend, if you need such a tool to unpack fwgWhisper.
 
 If you're so inclined, use the GitHub desktop app to perform this download.  If you don't know what I'm talking about, use the method above.
 

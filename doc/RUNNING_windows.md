@@ -9,7 +9,7 @@ We're going to make this all run with a mouse click by creating a shortcut.
 
 #### Before making the shortcut, try it in a shell to make sure it works.
 ```commandline
-cd Documents\GitHub\fwgWhisper-alpha
+cd Documents\GitHub\fwgWhisper-main
 python whisper-to-write.py
 ```
    - Ensure there are no failures in the checks.  You will know it has passed if it pops up a file selection box
