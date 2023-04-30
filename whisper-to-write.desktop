@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=whisper-to-write
+Type=Application
+Path=/home/daveg/Documents/GitHub/fwgWhisper
+Comment=whisper-to-write
+Terminal=true
+Icon=/home/daveg/.local/lib/python3.10/site-packages/pyshortcuts/icons/py.ico
+Exec=/usr/bin/python3.10 /home/daveg/Documents/GitHub/fwgWhisper/whisper-to-write.py

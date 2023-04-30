@@ -1,0 +1,11 @@
+__pycache__/*
+*.odt#
+*.odt#
+.eggs/*
+build/*
+.DS_Store
+dist/whisper-to-write.app/*
+.cache
+whisper-to-write.py alias
+whisper-to-write.pref
+samples_good/*.txt
