@@ -1,4 +1,4 @@
-#  Utilities for fwgWhisper
+#  Utilities for myWhisper
 #  2023-Apr-13  Dave Gutz   Create
 # Copyright (C) 2023 Dave Gutz
 #
@@ -72,6 +72,13 @@ def check_install(platform, pure_python=True):
         (have_python, have_pip) = check_install_python(platform)
         have_whisper = check_install_whisper(pure_python)
         have_ffmpeg = check_install_ffmpeg(pure_python)
+        have_ffmpeg_windows = False
+        if platform == 'Windows':
+            have_ffmpeg_windows = check_install_ffmpeg(pure_python=False)
+            if have_ffmpeg_windows == -1:
+                have_ffmpeg_windows = False
+            else:
+                have_ffmpeg_windows = True
         print('')
 
         # python help
@@ -83,18 +90,21 @@ def check_install(platform, pure_python=True):
             pip_help(platform)
 
         # whisper / ffmpeg help:   openai-whisper installs them
-        if not have_whisper or not have_ffmpeg:
-            whisper_help(platform, have_whisper, have_ffmpeg)
+        if not have_whisper or not have_ffmpeg or\
+                (platform == 'Windows' and not have_ffmpeg_windows):
+            whisper_help(platform, have_whisper, have_ffmpeg, have_ffmpeg_windows)
 
         # All good
         # #########Interim don't worry about macOS
         # If we have_python and have_pip and have_whisper and have_ffmpeg:
-        if have_python and have_pip and have_whisper and (platform == 'Darwin' or have_ffmpeg):
+        if have_python and have_pip and have_whisper and have_ffmpeg and \
+                (platform != 'Windows' or have_ffmpeg_windows):
             return 0
         else:
             return -1
     else:
         print(Colors.fg.red, "platform '", platform, "' unknown.   Contact your administrator", Colors.reset)
+        return -1
 
 
 def check_install_pkg(pkg, verbose=False):
@@ -206,23 +216,26 @@ def config_section_map(config, section):
 # Work out all the paths
 def configurator(filepath):
     (config_path, config_basename) = os.path.split(filepath)
-    config_file_path = os.path.join(config_path, 'whisper-to-write.pref')
+    config_file_path = os.path.join(config_path, 'whisper_to_write.pref')
     config = load_config(config_file_path)
     return config_path, config_basename, config_file_path, config
 
 
 # Open text file in editor
-def display_result(txt_path, platform):
+def display_result(txt_path, platform, silent):
     paragraph(txt_path)
 
-    if platform.system() == 'Darwin':
-        subprocess.Popen(['open', '-a', 'TextEdit', txt_path])
+    if silent is False:
+        if platform == 'Darwin':
+            subprocess.Popen(['open', '-a', 'TextEdit', txt_path])
 
-    if platform.system() == 'Linux':
-        subprocess.Popen(['gedit', txt_path])
+        if platform == 'Linux':
+            subprocess.Popen(['gedit', txt_path])
 
-    elif platform.system() == 'Windows':
-        subprocess.Popen(['notepad', txt_path])
+        elif platform == 'Windows':
+            subprocess.Popen(['notepad', txt_path])
+    else:
+        print('Results in', txt_path)
 
 
 # Define output write, e.g. 'file.txt'
@@ -301,7 +314,7 @@ def python_help(platform):
             python -m pip install configparser
             python -m pip install openai-whisper --default-timeout=1000 
             python -m pip install ffmpeg-python
-            python whisper-to-write.py
+            python whisper_to_write.py
             """), Colors.reset, sep=os.linesep)
     # macOS
     if platform == 'Darwin':
@@ -313,7 +326,7 @@ def python_help(platform):
             python3 -m pip install openai-whisper --default-timeout=1000 
             python3 -m pip install ffmpeg-python
             python3 certifi_glob.py
-            python3 whisper-to-write.py
+            python3 whisper_to_write.py
             """), Colors.reset, sep=os.linesep)
     # Linux
     elif platform == 'Linux':
@@ -325,7 +338,7 @@ def python_help(platform):
             sudo pip3 install openai-whisper --default-timeout=1000
             pip3 install configparser
             pip3 install shortcuts
-            python3 whisper-to-write.py
+            python3 whisper_to_write.py
             """), Colors.reset, sep=os.linesep)
 
 
@@ -339,9 +352,7 @@ class ResultWriter:
     def __call__(self, result: dict, audio_path: str, options: dict):
         audio_basename = os.path.basename(audio_path)
         audio_basename = os.path.splitext(audio_basename)[0]
-        output_path = os.path.join(
-            self.output_dir, audio_basename + "." + self.extension
-        )
+        output_path = os.path.join(self.output_dir, audio_basename + "." + self.extension)
 
         with open(output_path, "w", encoding="utf-8") as f:
             self.write_result(result, file=f, options=options)
@@ -460,14 +471,30 @@ def screened(extension, source, result, basename):
 
 
 # whisper help
-def whisper_help(platform, have_whisper, have_ffmpeg):
+def whisper_help(platform, have_whisper, have_ffmpeg, have_ffmpeg_windows):
 
     # windows
     if platform == 'Windows':
-        print(Colors.fg.green, inspect.cleandoc("""
-            ############# Once python and pip installed, install whisper and ffmpeg by:
-            pip3 install openai-whisper 
-            """), Colors.reset, sep=os.linesep)
+        # windows whisper
+        if not have_whisper:
+            print(Colors.fg.green, inspect.cleandoc("""
+                ############# Once python and pip installed, install whisper and ffmpeg by:
+                pip3 install openai-whisper 
+                """), Colors.reset, sep=os.linesep)
+
+        # windows ffmpeg
+        if not have_ffmpeg:
+            print(Colors.fg.green, inspect.cleandoc("""
+                #############  Once python and pip installed, install ffmpeg by:
+                python -m pip install ffmpeg-python
+                """), Colors.reset, sep=os.linesep)
+
+        # windows ffmpeg_windows
+        if not have_ffmpeg_windows:
+            print(Colors.fg.green, inspect.cleandoc("""
+                #############  Once python and pip installed, install ffmpeg cli by:
+                see README, install ffmpeg section of Windows install
+                """), Colors.reset, sep=os.linesep)
 
     # mac os
     if platform == 'Darwin':
