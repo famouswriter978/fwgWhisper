@@ -258,7 +258,7 @@ root.iconphoto(False, tk.PhotoImage(file=icon_path))
 
 bg_color = "lightgray"
 box_color = "lightgray"
-relief = None
+relief = tk.FLAT
 
 outer_frame = tk.Frame(root, bd=5, bg=bg_color)
 outer_frame.pack(fill='x')
@@ -270,25 +270,18 @@ pad_x_frames = 1
 pad_y_frames = 2
 
 recordings_frame = tk.Frame(outer_frame, width=250, height=200, bg=box_color, bd=4)
-# recordings_frame.grid(row=1, column=1, padx=pad_x_frames, pady=pad_y_frames, sticky="WE")
-# recordings_frame.grid_columnconfigure(0, weight=1)
-# recordings_frame.grid_rowconfigure(0, weight=1)
 recordings_frame.pack(side=tk.TOP)
 
 dictation_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-# dictation_frame.grid(row=2, column=1, padx=pad_x_frames, pady=pad_y_frames, sticky="WE")
 dictation_frame.pack(side=tk.TOP)
 
 transcription_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-# transcription_frame.grid(row=3, column=1, padx=pad_x_frames, pady=pad_y_frames, sticky="WE")
 transcription_frame.pack(side=tk.TOP)
 
 quit_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-# quit_frame.grid(row=4, column=1, padx=pad_x_frames, pady=pad_y_frames, sticky="WE")
 quit_frame.pack(side=tk.TOP)
 
 folder_label = tk.Label(recordings_frame, text='Recordings path', bg=box_color, fg="blue")
-# folder_label.grid(row=1, column=1)
 folder_label.pack()
 if platform.system() == 'Darwin':
     ex_root.folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
@@ -296,30 +289,25 @@ if platform.system() == 'Darwin':
 else:
     ex_root.folder_button = tk.Button(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
                                       fg="blue", bg=bg_color)
-# ex_root.folder_button.grid(row=2, column=1, ipadx=5, pady=5)
 ex_root.folder_button.pack(ipadx=5, pady=5)
 
 if mic_avail:
     button_spacer = tk.Label(dictation_frame, text=' ', bg=bg_color)
-    # button_spacer.grid(row=1, column=1, ipadx=5, pady=5, sticky="news")
     button_spacer.pack(side="left", fill='x', expand=True)
 
     if platform.system() == 'Darwin':
         recorder.dictate_button = tktt.TTButton(dictation_frame, text='Dictate', command=start, bg="red", fg="white")
     else:
         recorder.dictate_button = tk.Button(dictation_frame, text='Dictate', command=start, bg="red", fg="white")
-    # recorder.dictate_button.grid(row=1, column=2, ipadx=5, pady=5, sticky="news")
     recorder.dictate_button.pack(side="left", fill='x', expand=True)
 
     button_spacer = tk.Label(dictation_frame, text='          ', bg=bg_color)
-    # button_spacer.grid(row=1, column=3, ipadx=5, pady=5, sticky="news")
     button_spacer.pack(side="left", fill='x', expand=True)
 
     if platform.system() == 'Darwin':
         recorder.stop_button = tktt.TTButton(dictation_frame, text='Stop', command=stop, bg="lightgray", fg="white")
     else:
         recorder.stop_button = tk.Button(dictation_frame, text='Stop', command=stop, bg="lightgray", fg="white")
-    # recorder.stop_button.grid(row=1, column=4, ipadx=5, pady=5, sticky="news")
     recorder.stop_button.pack(side="left", fill='x', expand=True)
 else:
     if platform.system() == 'Darwin':
@@ -329,7 +317,6 @@ else:
     button_recorder.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(transcription_frame, text='  ', bg=bg_color)
-# button_spacer.grid(row=1, column=1, ipadx=5, pady=5, sticky="news")
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
     trans_recorder = tktt.TTButton(transcription_frame, text='Transcribe a File', command=transcribe, fg="green",
@@ -337,27 +324,22 @@ if platform.system() == 'Darwin':
 else:
     trans_recorder = tk.Button(transcription_frame, text='Transcribe a File', command=transcribe, fg="green",
                                bg=bg_color)
-# trans_recorder.grid(row=1, column=2, ipadx=5, pady=5)
 trans_recorder.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
-# button_spacer.grid(row=1, column=1, ipadx=5, pady=5, sticky="news")
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
     monitor_thread.show_button = tktt.TTButton(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
 else:
     monitor_thread.show_button = tk.Button(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
-# monitor_thread.show_button.grid(row=1, column=2, ipadx=5, pady=5)
 monitor_thread.show_button.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text='          ', bg=bg_color)
-# button_spacer.grid(row=1, column=3, ipadx=5, pady=5, sticky="news")
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
     button_quit = tktt.TTButton(quit_frame, text='Quit', command=quitting, bg=bg_color)
 else:
     button_quit = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
-# button_quit.grid(row=1, column=4, ipadx=5, pady=5)
 button_quit.pack(side="left", fill='x', expand=True)
 
 pic_path = os.path.join(ex_root.script_loc, 'fwg_table.png')
