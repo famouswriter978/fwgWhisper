@@ -1,7 +1,7 @@
 #  Prototype cli interface that feeds .wav file to whisper and transcribes it to .pdf
 #  Run in PyCharm
 #     or
-#  'python3 whisper_to_write.py'
+#  'python3 whisper_to_write.py
 #
 #  2023-Apr-29  Dave Gutz   Create
 # Copyright (C) 2023 Dave Gutz
@@ -29,7 +29,7 @@ os.environ['PYTHONIOENCODING'] = 'utf - 8'  # prevents UnicodeEncodeError: 'char
 
 # Wrap the openai Whisper program to make it useful and more portable
 def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=False):
-
+    print('model', model, 'device', device, 'file_in', file_in, 'waiting', waiting, 'sislent', silent)
     # Initialization
     result_ready = False
     if file_in is None:
@@ -54,7 +54,7 @@ def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=
         filepaths = filedialog.askopenfilenames(title='Please select files', filetypes=supported_ext)
         if filepaths is None or filepaths == '':
             print("No file chosen")
-            if silent is False:
+            if silent is False and waiting is True:
                 input('\nEnter anything to close window')
             return None, None
 

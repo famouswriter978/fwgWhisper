@@ -1,0 +1,4 @@
+[Whisper Preferences]
+model remark = Possible values: tiny.en, base.en, small.en, medium.en, large
+model = small.en
+

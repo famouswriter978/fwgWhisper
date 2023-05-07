@@ -26,6 +26,7 @@ from threading import Thread, Event
 from datetime import datetime
 from pvrecorder import PvRecorder
 result_ready = False
+thread_active = False
 if platform.system() == 'Darwin':
     import ttwidgets as tktt
 else:
@@ -34,20 +35,24 @@ else:
 
 # Wrap thread class so can extract resulting filename
 class CustomThread(Thread):
-    def __init__(self, audio_path, waiting, silent, recordings_folder):
+    def __init__(self, audio_path, waiting, silent, recordings_folder, id):
         Thread.__init__(self)
         self.waiting = waiting
         self.silent = silent
         self.audio_path = audio_path
         self.result_path = None
         self.recordings_folder = recordings_folder
+        self.id = id
 
     def run(self):
         global result_ready
+        global thread_active
+        thread_active.append(True)
         self.result_path, result_ready = whisper_to_write(model='', device='cpu', file_in=self.audio_path,
                                                           waiting=self.waiting, silent=self.silent)
         if self.result_path is not None and result_ready is True:
             print("Results displayed automatically at 'Quit' or by pressing 'Show All'")
+        thread_active[self.id] = False
 
 
 class MonitorThread(Thread):
@@ -180,8 +185,8 @@ class MyRecorder:
             try:
                 os.remove(self.file_path)
                 print('Converted', self.file_path, 'to', self.audio_path)
-                self.thread.append(CustomThread(self.audio_path, False, True, self.rec_path))
                 self.thd_num += 1
+                self.thread.append(CustomThread(self.audio_path, False, True, self.rec_path, self.thd_num))
                 print('starting thread', self.thd_num, end='...')
                 self.thread[self.thd_num].start()
             except OSError:
@@ -190,12 +195,14 @@ class MyRecorder:
         else:
             print('recorder was not running')
 
-    def transcribe(self):
+
+def transcribe():
+    global thread_active
+    if thread_active:
+        print('wait for dictation processes to end')
+    else:
         try:
-            self.thread.append(CustomThread(None, False, True, self.rec_path))
-            self.thd_num += 1
-            print('starting thread', self.thd_num, end='...')
-            self.thread[self.thd_num].start()
+            result_path, loc_ready = whisper_to_write(file_in=None, waiting=False, silent=False)
         except OSError:
             print('Transcription failed')
             pass
@@ -213,10 +220,6 @@ def select_recordings_folder():
     ex_root.select_recordings_folder()
 
 
-def transcribe():
-    recorder.transcribe()
-
-
 def show():
     recorder.stop()
     recorder.show()
@@ -224,8 +227,11 @@ def show():
 
 def quitting():
     show()
+    print('mon stop')
     monitor_thread.stop()
+    print('mon join')
     monitor_thread.join()
+    print('exit')
     exit(0)
 
 
