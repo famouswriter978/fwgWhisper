@@ -58,10 +58,15 @@ sudo apt install python3-pip
 python3 -m pip install --upgrade pip
 
 # Continue with these dependencies
+
 pip install configparser
 python3 -m pip install pyshortcuts
 python3 -m pip install torch --no-cache-dir --default-timeout=1000  # This installs large cuda files
 pip3 install openai-whisper --default-timeout=1000  # This installs 'whisper' and 'ffmpeg'
+python3 -m pip install pydub
+python3 -m pip install pvrecorder
+python3 -m pip install pyaudio
+python3 -m pip install ttwidgets
 . ~/.bashrc
 sudo apt install ffmpeg
 ```

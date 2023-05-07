@@ -66,6 +66,10 @@ Open a non-administrative Power Shell, Terminal (Win 11), or Cmd and run the fol
 python -m pip install --upgrade pip
 python -m pip install configparser
 python -m pip install openai-whisper --default-timeout=1000
+python -m pip install pydub
+python -m pip install pvrecorder
+python -m pip install pyaudio
+python -m pip install ttwidgets
 ```
 
 ### Running:  [here](RUNNING_windows.md)
