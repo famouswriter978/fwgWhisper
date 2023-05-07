@@ -12,7 +12,7 @@ Then run 'whisper-to-write.py' using 'python3.10.'
 
 
 ### Download the repository [fwgWhisper](http://www.github.com/famouswriter978/fwgwhisper)
-For most people it's easiest to click on the green '<> Code' box and download the '.zip' file.  Extract to Documents/GitHub.  Make that folder if you need to.  When done, there will be a folder similar to 'fwgWhisper-main' where 'main' refers to the Current Branch in GitHub.
+For most people it's easiest to click on the green '<> Code' box and download the '.zip' file.  Extract to Documents/GitHub.  Make that folder if you need to.  When done, there will be a folder similar to 'fwgWhisper' where 'main' refers to the Current Branch in GitHub.
 
 If you're so inclined, use the GitHub desktop app to perform this download.  If you don't know what I'm talking about, use the method above.
 
@@ -78,7 +78,7 @@ We're going to make this all run with a mouse click by creating a shortcut.
 
 #### Before making the shortcut, try it in a shell to make sure it works.
 ``` commandline
-cd Documents/GitHub/fwgWhisper-main
+cd Documents/GitHub/fwgWhisper
 python3 whisper-to-write.py
 ```
    - Ensure there are no failures in the checks.  You will know it has passed if it pops up a file selection box

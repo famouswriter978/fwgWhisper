@@ -19,15 +19,15 @@ Next we're going to make this all run with a mouse click by creating a shortcut.
 #### Before making the shortcut, try it in a shell to make sure it works
 
 ```commandline
-cd Documents/GitHub/fwgWhisper-main
-python3.10 whisper-to-write.py
+cd Documents/GitHub/fwgWhisper
+python3.10 speak_write.py
 ``` 
    - Ensure there are no failures in the checks.  You will know it has passed if it pops up a file selection box
    - Select one of the test files that came with 'fwgWhisper.'  The file 'FGP_160kbps_m4a.m4a' file is a good, short choice.
    - Select a model.  'tiny.en' is a good quick test.  'small.en' gives very good results for your normal use later.
    - You should see text streaming:   '<time stamp> Title, flying goat pose'
    - Let it run to confirm a text editor 'notepad' process opens with the transcribed text.   Sometimes this opens below other windows so check the taskbar for notepad processes.
-   - Click in the run window 'whisper-to-write.py - Shortcut' and press 'enter' when you're ready to close the run window
+   - Click in the run window 'speak_write.py - Shortcut' and press 'enter' when you're ready to close the run window
    - You will be copying from this type of 'notepad' window into your writing!
 
 
@@ -41,7 +41,7 @@ python3.10 whisper-to-write.py
    - Put the resulting icon where you want it:  desktop or taskbar
    - Open a 'Terminal.'   Go to Preferences - Shell - When the shell exits'.  Select 'close if the shell exited cleanly.'  This will prevent a bunch of zombie windows from accumulating after multiple runs are completed, successfully.
    - Drag the alias to the taskbar.  It will make a copy.
-   - Finally, and going forward, click on 'whisper-to-write.py alias' to test it.
+   - Finally, and going forward, click on 'speak_write.py alias' to test it.
 
 
 [Back to macOS INSTALL](INSTALL_macos.md)
