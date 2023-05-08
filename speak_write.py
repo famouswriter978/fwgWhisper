@@ -22,11 +22,11 @@ import tkinter.filedialog
 from RawRecorder import *
 import pydub
 from whisper_to_write import *
-from threading import Thread, Event
+from threading import Thread
 from datetime import datetime
 from pvrecorder import PvRecorder
-result_ready = False
-thread_active = False
+result_ready = 0
+thread_active = 0
 if platform.system() == 'Darwin':
     import ttwidgets as tktt
 else:
@@ -35,49 +35,29 @@ else:
 
 # Wrap thread class so can extract resulting filename
 class CustomThread(Thread):
-    def __init__(self, audio_path, waiting, silent, recordings_folder, id):
+    def __init__(self, audio_path, waiting, silent, recordings_folder, eyed):
         Thread.__init__(self)
         self.waiting = waiting
         self.silent = silent
         self.audio_path = audio_path
         self.result_path = None
         self.recordings_folder = recordings_folder
-        self.id = id
+        self.id = eyed
 
     def run(self):
         global result_ready
         global thread_active
-        thread_active.append(True)
-        self.result_path, result_ready = whisper_to_write(model='', device='cpu', file_in=self.audio_path,
-                                                          waiting=self.waiting, silent=self.silent)
-        if self.result_path is not None and result_ready is True:
+        thread_active += 1
+        self.result_path, ready = whisper_to_write(model='', device='cpu', file_in=self.audio_path,
+                                                   waiting=self.waiting, silent=self.silent)
+        if self.result_path is not None and ready is True:
+            result_ready += 1
             print("Results displayed automatically at 'Quit' or by pressing 'Show All'")
-        thread_active[self.id] = False
-
-
-class MonitorThread(Thread):
-    def __init__(self):
-        Thread.__init__(self)
-        self._stop_event = Event()
-        self.show_button = None
-
-    def run(self):
-        while True:
-            # print('top while true...stopped=', self.stopped())
-            if self.stopped():
-                # print('self.stopped...returning')
-                break
-            if result_ready:
-                self.show_button.config(bg="green")
-            else:
-                self.show_button.config(bg="lightgray")
-            time.sleep(2)
-
-    def stop(self):
-        self._stop_event.set()
-
-    def stopped(self):
-        return self._stop_event.is_set()
+        thread_active -= 1
+        if result_ready > 0:
+            show_button.config(bg="green")
+        else:
+            show_button.config(bg="lightgray")
 
 
 # Executive class to control the global variables
@@ -157,7 +137,11 @@ class MyRecorder:
                 self.thread[i].result_path = None  # Clear
             else:
                 print('stopped thread', i, ': result was screened')
-        result_ready = False  # Clear
+        result_ready -= 1  # Clear
+        if result_ready > 0:
+            show_button.config(bg="green")
+        else:
+            show_button.config(bg="lightgray")
 
     def start(self):
         self.file_path = os.path.join(self.rec_path, 'test.wav')
@@ -198,11 +182,11 @@ class MyRecorder:
 
 def transcribe():
     global thread_active
-    if thread_active:
+    if thread_active > 0:
         print('wait for dictation processes to end')
     else:
         try:
-            result_path, loc_ready = whisper_to_write(file_in=None, waiting=False, silent=False)
+            whisper_to_write(file_in=None, waiting=False, silent=False)
         except OSError:
             print('Transcription failed')
             pass
@@ -227,18 +211,12 @@ def show():
 
 def quitting():
     show()
-    print('mon stop')
-    monitor_thread.stop()
-    print('mon join')
-    monitor_thread.join()
-    print('exit')
     exit(0)
 
 
 # --- main ---
 # Configuration for entire folder selection read with filepaths
 cwd_path = os.getcwd()
-monitor_thread = MonitorThread()
 ex_root = ExRoot()
 recorder = MyRecorder(ex_root.rec_folder)
 
@@ -335,18 +313,18 @@ trans_recorder.pack(side="left", fill='x', expand=True)
 button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
-    monitor_thread.show_button = tktt.TTButton(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
+    show_button = tktt.TTButton(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
 else:
-    monitor_thread.show_button = tk.Button(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
-monitor_thread.show_button.pack(side="left", fill='x', expand=True)
+    show_button = tk.Button(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
+show_button.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text='          ', bg=bg_color)
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
-    button_quit = tktt.TTButton(quit_frame, text='Quit', command=quitting, bg=bg_color)
+    quit_button = tktt.TTButton(quit_frame, text='Quit', command=quitting, bg=bg_color)
 else:
-    button_quit = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
-button_quit.pack(side="left", fill='x', expand=True)
+    quit_button = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
+quit_button.pack(side="left", fill='x', expand=True)
 
 pic_path = os.path.join(ex_root.script_loc, 'fwg_table.png')
 image = tk.Frame(pic_frame, borderwidth=2, bg=box_color)
@@ -356,5 +334,4 @@ image.label = tk.Label(image, image=image.picture)
 image.label.pack()
 
 # Begin
-monitor_thread.start()
 root.mainloop()
