@@ -203,14 +203,17 @@ def select_recordings_folder():
     ex_root.select_recordings_folder()
 
 
-def show():
+def show_all():
     recorder.stop()
     recorder.show()
 
 
 def quitting():
-    show()
-    exit(0)
+    if thread_active > 0:
+        print('wait for dictation processes to end')
+    else:
+        show_all()
+        exit(0)
 
 
 # --- main ---
@@ -267,11 +270,11 @@ quit_frame.pack(side=tk.TOP)
 folder_label = tk.Label(recordings_frame, text='Recordings path', bg=box_color, fg="blue")
 folder_label.pack()
 if platform.system() == 'Darwin':
- folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
-                                          fg="blue", bg=bg_color)
+    folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
+                                  fg="blue", bg=bg_color)
 else:
     folder_button = tk.Button(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
-                                      fg="blue", bg=bg_color)
+                              fg="blue", bg=bg_color)
 folder_button.pack(ipadx=5, pady=5)
 
 if mic_avail:
@@ -312,9 +315,9 @@ trans_recorder.pack(side="left", fill='x', expand=True)
 button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
-    show_button = tktt.TTButton(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
+    show_button = tktt.TTButton(quit_frame, text='Show All', command=show_all, fg="white", bg="lightgray")
 else:
-    show_button = tk.Button(quit_frame, text='Show All', command=show, fg="white", bg="lightgray")
+    show_button = tk.Button(quit_frame, text='Show All', command=show_all, fg="white", bg="lightgray")
 show_button.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text='          ', bg=bg_color)
