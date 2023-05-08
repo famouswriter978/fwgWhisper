@@ -128,19 +128,22 @@ class MyRecorder:
 
     def show(self):
         global result_ready
-        for i in range(self.thd_num+1):
-            self.thread[i].join()
-            if self.thread[i].result_path is not None:
-                display_result(self.thread[i].result_path, platform.system(), False)
-                print('stopped thread', i, ': result in', self.thread[i].result_path)
-                result_ready -= 1  # Clear
-                self.thread[i].result_path = None  # Clear
-            else:
-                print('stopped thread', i, ': result was screened')
-        if result_ready > 0:
-            show_button.config(bg="green")
+        if thread_active > 0:
+            print('wait for dictation processes to end')
         else:
-            show_button.config(bg="lightgray")
+            for i in range(self.thd_num+1):
+                self.thread[i].join()
+                if self.thread[i].result_path is not None:
+                    display_result(self.thread[i].result_path, platform.system(), False)
+                    print('stopped thread', i, ': result in', self.thread[i].result_path)
+                    result_ready -= 1  # Clear
+                    self.thread[i].result_path = None  # Clear
+                else:
+                    print('stopped thread', i, ': result was screened')
+            if result_ready > 0:
+                show_button.config(bg="green")
+            else:
+                show_button.config(bg="lightgray")
 
     def start(self):
         self.file_path = os.path.join(self.rec_path, 'test.wav')
