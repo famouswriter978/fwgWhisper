@@ -6,7 +6,7 @@
 Synopsis:  Download this repository.   Put it in Documents/GitHub folder.
 Download and install ffmpeg.   Download and install python3.10.10.  Use 'pip' and 'pip3' from
 'python3.10' to install dependencies 'configparser' and 'openai-whisper' respectively.  The paths will get set automatically to point 'python' at 'python3.10'.
-Start Google Drive if installed.  Then run 'whisper-to-write.py' using 'python'
+Start Google Drive if installed.  Then run 'whisper_to_write.py' using 'python'
 
 Be sure that your user account name has no spaces before starting this.   If it does, change it now.   Go to 'Control Panel - User Accounts - Change the account name'
 

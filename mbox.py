@@ -168,6 +168,7 @@ class MessageBox(object):
                 self.returning = x
                 self.root.quit()
 
+
     def b2_action(self):
         self.returning = self.b2_return
         self.root.quit()

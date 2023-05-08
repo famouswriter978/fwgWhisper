@@ -8,7 +8,7 @@ Synopsis:  Download this repository.   Put it in Documents/GitHub folder.
 Download and install ffmpeg.   Download and install python3.10.10 if at least 3.10.6 is not installed.  Use 'pip' and 'pip3' from
 'python3.10' to install dependencies 'configparser', 'opengui', and 'openai-whisper' respectively.
 
-Then run 'whisper-to-write.py' using 'python3.10.'
+Then run 'whisper_to_write.py' using 'python3.10.'
 
 
 ### Download the repository [fwgWhisper](http://www.github.com/famouswriter978/fwgwhisper)
@@ -65,10 +65,20 @@ python3 -m pip install torch --no-cache-dir --default-timeout=1000  # This insta
 pip3 install openai-whisper --default-timeout=1000  # This installs 'whisper' and 'ffmpeg'
 python3 -m pip install pydub
 python3 -m pip install pvrecorder
-python3 -m pip install pyaudio
 python3 -m pip install ttwidgets
 . ~/.bashrc
 sudo apt install ffmpeg
+sudo apt install libsound-dev  # for ALSA
+# get portaudio at files.portaudio.com/download.html
+# extract in Downloads (extract here after right click)
+cd Downloads/
+# descend to portaudio
+./configure
+# verify 'ALSA....yes'
+make
+sudo make install
+sudo ldconfig
+python3 -m pip install pyaudio
 ```
 
 ### Running:  [here](RUNNING_linux.md)
@@ -79,28 +89,28 @@ We're going to make this all run with a mouse click by creating a shortcut.
 #### Before making the shortcut, try it in a shell to make sure it works.
 ``` commandline
 cd Documents/GitHub/fwgWhisper
-python3 whisper-to-write.py
+python3 whisper_to_write.py
 ```
    - Ensure there are no failures in the checks.  You will know it has passed if it pops up a file selection box
    - Select one of the test files that came with 'fwgWhisper.'  The file 'FGP_160kbps_m4a.m4a' file is a good, short choice.
    - Select a model.  'tiny.en' is a good quick test.  'small.en' gives very good results for your normal use later.
    - You should see text streaming:   '<time stamp> Title, flying goat pose'
    - Let it run to confirm a text editor 'notepad' process opens with the transcribed text.   Sometimes this opens below other windows so check the taskbar for notepad processes.
-   - Click in the run window 'whisper-to-write.py - Shortcut' and press 'enter' when you're ready to close the run window
+   - Click in the run window 'whisper_to_write.py - Shortcut' and press 'enter' when you're ready to close the run window
    - You will be copying from this type of 'notepad' window into your writing!
 
 #### To make the shortcut do the following:
    - Browse to 'fwgWhisper.'
    - run `python3 setuplinux.py`
-   - You will now see a new file 'whisper-to-write' shortcut on the desktop
-   - Right-click on 'whisper-to-write' and open with an editor.  It will look something like, with your username in place of '<user>'.
-        [whisper-to-write.desktop](../whisper-to-write.desktop)
+   - You will now see a new file 'whisper_to_write' shortcut on the desktop
+   - Right-click on 'whisper_to_write' and open with an editor.  It will look something like, with your username in place of '<user>'.
+        [whisper_to_write.desktop](../whisper_to_write.desktop)
    - Change the 'Path' line to something more useful, so it opens to where your recordings are:
 `Path=/home/<username>/Documents/GitHub/fwgWhisper`
 
    - If you want, make life easier by adding 'small.en' after the 'Target:' data to force it to always run the excellent small model without having to select it everytime the program runs
 
-   - 'Exec=/usr/bin/python3.10 /home/<username>/Documents/GitHub/fwgWhisper/whisper-to-write.py small.en
+   - 'Exec=/usr/bin/python3.10 /home/<username>/Documents/GitHub/fwgWhisper/whisper_to_write.py small.en
 
 ### Special Developer Instructions:  [here](DEVELOPER.md)
 

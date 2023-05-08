@@ -3,10 +3,10 @@ __pycache__/*
 .eggs/*
 build/*
 .DS_Store
-dist/whisper-to-write.app/*
+dist/whisper_to_write.app/*
 .cache
-whisper-to-write.py alias
-whisper-to-write.pref
+whisper_to_write.py alias
+whisper_to_write.pref
 samples_good/*.txt
 samples_good/whisper_to_write.pref
 root_config.ini

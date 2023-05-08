@@ -23,7 +23,7 @@ python3 speak_write.py
 #### To make the shortcut do the following:
    - Browse to 'fwgWhisper.'
    - run `python3 setuplinux.py`
-   - You will now see a new file 'speak_write' shortcut on the desktop
+   - You will now see a new files 'whisper_to_write' and 'speak_write' shortcut on the desktop
    - Right-click on 'speak_write' and open with an editor.  It will look something like, with your username in place of '<user>'.
 
 ```
@@ -45,6 +45,8 @@ Path=/home/<username>/Documents/GitHub/fwgWhisper
 ```
 Exec=/usr/bin/python3.10 /home/<username>/Documents/GitHub/fwgWhisper/speak_write.py small.en
 ``` 
+
+You can ignore ALSA messages that this 'speak_write' throws.  It's looking for sound cards.  We're only using the microphone.
 
 [Back to Linux INSTALL](INSTALL_linux.md)
 

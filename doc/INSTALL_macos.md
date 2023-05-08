@@ -7,7 +7,7 @@ Synopsis:  Download this repository.   Put it in Documents/GitHub folder.
 Download and install ffmpeg-python (or ffmpeg...TBD).   Download and install python3.10.10.  Use 'pip' and 'pip3' from
 'python3.10' to install dependencies 'configparser' and 'openai-whisper' respectively.
 
-Then run 'whisper-to-write.py' using 'python3.10.'
+Then run 'whisper_to_write.py' using 'python3.10.'
 
 # INSTALL
 
