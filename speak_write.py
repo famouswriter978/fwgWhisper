@@ -69,7 +69,6 @@ class ExRoot:
         self.rec_folder = None
         self.root_config = None
         self.load_root_config(self.config_path)
-        self.folder_button = None
 
     def select_recordings_folder(self):
         print('before', self.rec_folder)
@@ -79,7 +78,7 @@ class ExRoot:
             self.rec_folder = ask_rec_folder
         os.chdir(self.rec_folder)
         print('changed working directory to', self.rec_folder)
-        self.folder_button.config(text=self.rec_folder)
+        folder_button.config(text=self.rec_folder)
         before_folder = self.root_config['Root Preferences']['recordings path']
         self.root_config.set('Root Preferences', 'recordings path', self.rec_folder)
         after_folder = self.root_config['Root Preferences']['recordings path']
@@ -134,10 +133,10 @@ class MyRecorder:
             if self.thread[i].result_path is not None:
                 display_result(self.thread[i].result_path, platform.system(), False)
                 print('stopped thread', i, ': result in', self.thread[i].result_path)
+                result_ready -= 1  # Clear
                 self.thread[i].result_path = None  # Clear
             else:
                 print('stopped thread', i, ': result was screened')
-        result_ready -= 1  # Clear
         if result_ready > 0:
             show_button.config(bg="green")
         else:
@@ -268,12 +267,12 @@ quit_frame.pack(side=tk.TOP)
 folder_label = tk.Label(recordings_frame, text='Recordings path', bg=box_color, fg="blue")
 folder_label.pack()
 if platform.system() == 'Darwin':
-    ex_root.folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
+ folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
                                           fg="blue", bg=bg_color)
 else:
-    ex_root.folder_button = tk.Button(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
+    folder_button = tk.Button(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
                                       fg="blue", bg=bg_color)
-ex_root.folder_button.pack(ipadx=5, pady=5)
+folder_button.pack(ipadx=5, pady=5)
 
 if mic_avail:
     button_spacer = tk.Label(dictation_frame, text=' ', bg=bg_color)
@@ -320,10 +319,7 @@ show_button.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text='          ', bg=bg_color)
 button_spacer.pack(side="left", fill='x', expand=True)
-if platform.system() == 'Darwin':
-    quit_button = tktt.TTButton(quit_frame, text='Quit', command=quitting, bg=bg_color)
-else:
-    quit_button = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
+quit_button = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
 quit_button.pack(side="left", fill='x', expand=True)
 
 pic_path = os.path.join(ex_root.script_loc, 'fwg_table.png')
