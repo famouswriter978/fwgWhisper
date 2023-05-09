@@ -56,7 +56,7 @@ The above figure shows the effect of computer.  Even the smallest available 64-b
 The command-line-interface (cli) is four times slower.   Use Native Python provided with this tool.
 
 ## Recommendations
-1. Record in mono.   Sound quality is fine.  I used these [Audacity](doc/INSTALL_audacity.md) instructions.
+1. Record in mono.   Sound quality is fine.  I used these [Audacity](doc/INSTALL_audacity.md) instructions. 
 2. Any audio file format will work.  '.wav' tends to have the largest file sizes by a factor of 5.   Formats 'mp3' and 'm4a' work fine.
 3. 'Whisper' appears to down-sample (low-res mp3 results are as good as lossless wav).   Therefore, low audio resolution works fine and keeps sizes small, mp3 48 kbps.
 4. When running the tool, avoid the 'tiny.en' model.   The 'base.en' model runs almost as fast and with half the error rate.   The 'small.en' model runs about half of live and slightly better error rate than 'base.en' but may not be worth the time spent.   The 'medium.en' model is nearly perfect and takes about the same amount of time it did to record.  Consider your needs:  it may be worthwhile to run your transcriptions overnight.
