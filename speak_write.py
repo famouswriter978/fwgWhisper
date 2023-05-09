@@ -220,6 +220,11 @@ def quitting():
 
 
 # --- main ---
+if check_install(platform.system()) != 0:
+    print(Colors.fg.red, 'Installation problems.   See suggestions a few lines above')
+    # Ask for input to force hold to see stderr
+    exit(0)
+
 # Configuration for entire folder selection read with filepaths
 cwd_path = os.getcwd()
 ex_root = ExRoot()

@@ -43,7 +43,7 @@ def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=
     if check_install(platform.system()) != 0:
         print(Colors.fg.red, 'Installation problems.   See suggestions a few lines above')
         # Ask for input to force hold to see stderr
-        if silent is False:
+        if silent is False and waiting is True:
             input('\nEnter anything to close window')
         return None, None
 
