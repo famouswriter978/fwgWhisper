@@ -19,6 +19,7 @@
 # See http://www.fsf.org/licensing/licenses/lgpl.txt for full license text.
 
 import tkinter.filedialog
+import tkinter.messagebox
 from RawRecorder import *
 import pydub
 from whisper_to_write import *
@@ -220,12 +221,13 @@ def quitting():
 
 
 # --- main ---
+# Configuration for entire folder selection read with filepaths
 if check_install(platform.system()) != 0:
-    print(Colors.fg.red, 'Installation problems.   See suggestions a few lines above')
     # Ask for input to force hold to see stderr
+    print(Colors.fg.red, 'Installation problems.   See messages in window')
+    tk.messagebox.showerror(message='Installation problems.   See  messages in window')
     exit(0)
 
-# Configuration for entire folder selection read with filepaths
 cwd_path = os.getcwd()
 ex_root = ExRoot()
 recorder = MyRecorder(ex_root.rec_folder)
@@ -237,7 +239,7 @@ try:
     for index, device in enumerate(audio_devices):
         print(f"[{index}] {device}")
     pa = pyaudio.PyAudio()
-    default = pa.get_default_input_device_info()  # raises  IOError
+    default = pa.get_default_input_device_info()  # raises IOError
     print('using', default['name'])
 except IOError:
     print(Colors.fg.red, 'Default microphone not found.  Capability limited', Colors.reset)
@@ -250,6 +252,7 @@ root.title('openAI whisper')
 icon_path = os.path.join(ex_root.script_loc, 'fwg.png')
 root.iconphoto(False, tk.PhotoImage(file=icon_path))
 
+# Checks
 bg_color = "lightgray"
 box_color = "lightgray"
 relief = tk.FLAT
