@@ -237,7 +237,7 @@ try:
     for index, device in enumerate(audio_devices):
         print(f"[{index}] {device}")
     pa = pyaudio.PyAudio()
-    default = pa.get_default_input_device_info()  # raises IOError
+    default = pa.get_default_input_device_info()  # raises  IOError
     print('using', default['name'])
 except IOError:
     print(Colors.fg.red, 'Default microphone not found.  Capability limited', Colors.reset)
