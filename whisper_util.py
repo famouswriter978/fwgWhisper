@@ -283,7 +283,7 @@ def paragraph(txt_path):
     with open(txt_path, 'w') as file:
         for line in lines:
             file.write(line)
-            if line[-1] == '.':
+            if line and line[-1] == '.':
                 file.write('  ')
             else:
                 file.write(' ')
