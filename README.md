@@ -1,4 +1,5 @@
 # Whisper for FWG
+![icon](speak_write.png)
 Whisper-for-FWG is a wrap of OpenAI's Whisper program, a speech-to-text transcribing program.   We attempt to make it a one-click process, so you can concentrate on your writing.  By using native python the speed of this wrapped version is the fastest software possible.  There are a lot of instructions out 'there' to run 'whisper' using a command line interface (cli) which is 4 times slower than the native python approach.
 
 There are hardware approaches that will make it faster  - 'cuda' package for NVIDIA GPUs.   This wrapper does not support that.   I tried on a new HP OMEN gaming PC without success.
