@@ -336,7 +336,7 @@ button_spacer.pack(side="left", fill='x', expand=True)
 quit_button = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
 quit_button.pack(side="left", fill='x', expand=True)
 
-pic_path = os.path.join(ex_root.script_loc, 'bubbles_as_if_by_magic.png')
+pic_path = os.path.join(ex_root.script_loc, 'speak_write.png')
 image = tk.Frame(pic_frame, borderwidth=2, bg=box_color)
 image.pack(side=tk.TOP, fill="x")
 image.picture = tk.PhotoImage(file=pic_path)
