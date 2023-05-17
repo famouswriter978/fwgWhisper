@@ -183,24 +183,29 @@ class MyRecorder:
             print('recorder was not running')
 
 
-def transcribe():
-    global thread_active
+# Global functions
+def make_exit():
+    show_all()
+    root.destroy()
+
+
+def quitting():
     if thread_active > 0:
-        print('wait for dictation processes to end')
+        print('wait for conversions to end')
+        msg_box = tk.messagebox.askquestion('Busy converting...', 'Whisper is busy converting a file.  Do you want to exit right away?',
+                                            icon='warning')
+        if msg_box == 'yes':
+            make_exit()
+    elif recorder.running is not None:
+        print('Do you wish to stop?')
+        msg_box = tk.messagebox.askquestion('Busy dictating...', 'Do you want to stop and exit right away?',
+                                            icon='warning')
+        if msg_box == 'yes':
+            recorder.stop()
+        else:
+            print('Continuing to record')
     else:
-        try:
-            whisper_to_write(file_in=None, waiting=False, silent=False)
-        except OSError:
-            print('Transcription failed')
-            pass
-
-
-def start():
-    recorder.start()
-
-
-def stop():
-    recorder.stop()
+        make_exit()
 
 
 def select_recordings_folder():
@@ -212,12 +217,25 @@ def show_all():
     recorder.show()
 
 
-def quitting():
+def start():
+    recorder.start()
+
+
+def stop():
+    print('pressed stop')
+    recorder.stop()
+
+
+def transcribe():
+    global thread_active
     if thread_active > 0:
         print('wait for dictation processes to end')
     else:
-        show_all()
-        exit(0)
+        try:
+            whisper_to_write(file_in=None, waiting=False, silent=False)
+        except OSError:
+            print('Transcription failed')
+            pass
 
 
 # --- main ---
