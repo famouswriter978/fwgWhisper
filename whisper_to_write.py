@@ -28,7 +28,7 @@ os.environ['PYTHONIOENCODING'] = 'utf - 8'  # prevents UnicodeEncodeError: 'char
 
 
 # Wrap the openai Whisper program to make it useful and more portable
-def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=False):
+def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=False, conversation=0):
     print('model', model, 'device', device, 'file_in', file_in, 'waiting', waiting, 'silent', silent)
     # Initialization
     result_ready = False
@@ -114,7 +114,7 @@ def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=
             result_ready = True
 
         print('')
-        display_result(txt_path, platform.system(), silent)
+        display_result(txt_path, platform.system(), silent, conversation=conversation)
 
         # Delay a little to allow windows to pop up without hiding each other.
         # The slower the computer, the more needed.

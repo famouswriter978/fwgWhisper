@@ -222,8 +222,9 @@ def configurator(filepath):
 
 
 # Open text file in editor
-def display_result(txt_path, platform, silent):
-    paragraph(txt_path)
+def display_result(txt_path, platform, silent, conversation=0):
+    if conversation == 0:
+        paragraph(txt_path)
 
     if silent is False:
         if platform == 'Darwin':

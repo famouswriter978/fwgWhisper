@@ -50,7 +50,8 @@ class CustomThread(Thread):
         global thread_active
         thread_active += 1
         self.result_path, ready = whisper_to_write(model='', device='cpu', file_in=self.audio_path,
-                                                   waiting=self.waiting, silent=self.silent)
+                                                   waiting=self.waiting, silent=self.silent,
+                                                   conversation=ex_root.conversation.get())
         if self.result_path is not None and ready is True:
             result_ready += 1
             print("Results displayed automatically at 'Quit' or by pressing 'Show All'")
@@ -70,6 +71,7 @@ class ExRoot:
         self.rec_folder = None
         self.root_config = None
         self.load_root_config(self.config_path)
+        self.conversation = None
 
     def select_recordings_folder(self):
         print('before', self.rec_folder)
@@ -135,7 +137,7 @@ class MyRecorder:
             for i in range(self.thd_num+1):
                 self.thread[i].join()
                 if self.thread[i].result_path is not None:
-                    display_result(self.thread[i].result_path, platform.system(), False)
+                    display_result(self.thread[i].result_path, platform.system(), False, conversation=ex_root.conversation.get())
                     print('stopped thread', i, ': result in', self.thread[i].result_path)
                     result_ready -= 1  # Clear
                     self.thread[i].result_path = None  # Clear
@@ -232,7 +234,7 @@ def transcribe():
         print('wait for dictation processes to end')
     else:
         try:
-            whisper_to_write(file_in=None, waiting=False, silent=False)
+            whisper_to_write(file_in=None, waiting=False, silent=False, conversation=ex_root.conversation.get())
         except OSError:
             print('Transcription failed')
             pass
@@ -293,6 +295,9 @@ dictation_frame.pack(side=tk.TOP)
 transcription_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
 transcription_frame.pack(side=tk.TOP)
 
+conversation_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
+conversation_frame.pack(side=tk.TOP)
+
 quit_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
 quit_frame.pack(side=tk.TOP)
 
@@ -340,6 +345,11 @@ else:
     trans_recorder = tk.Button(transcription_frame, text='Transcribe a File', command=transcribe, fg="green",
                                bg=bg_color)
 trans_recorder.pack(side="left", fill='x', expand=True)
+
+ex_root.conversation = tk.IntVar()
+converse_button = tk.Checkbutton(conversation_frame, text='Conversation', bg=bg_color, variable=ex_root.conversation,
+                                 onvalue=1, offvalue=0)
+converse_button.pack(fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
 button_spacer.pack(side="left", fill='x', expand=True)
