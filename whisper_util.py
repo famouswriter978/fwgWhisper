@@ -24,7 +24,6 @@ from Colors import Colors
 from mbox import MessageBox
 from typing import Callable, TextIO
 
-
 # Filetype definitions
 supported = ['.mp3', '.m4a', '.mp4', '.mpeg', '.mpga', '.opus', '.ts', '.voc', '.w64', '.wav',
              '.webm', '.wma', '.wv']
@@ -229,10 +228,8 @@ def display_result(txt_path, platform, silent, conversation=0):
     if silent is False:
         if platform == 'Darwin':
             subprocess.Popen(['open', '-a', 'TextEdit', txt_path])
-
         if platform == 'Linux':
             subprocess.Popen(['gedit', txt_path])
-
         elif platform == 'Windows':
             subprocess.Popen(['notepad', txt_path])
     else:
@@ -284,11 +281,9 @@ def paragraph(txt_path):
     with open(txt_path, 'w') as file:
         for line in lines:
             file.write(line)
+            # APA Guidelines are for one space between sentences
             if line:
-                if line[-1] == '.':
-                    file.write('  ')
-                else:
-                    file.write(' ')
+                file.write(' ')
     file.close()
 
 

@@ -128,13 +128,19 @@ def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=
 
 
 if __name__ == '__main__':
-    def main(model=''):
+    def main(model='', silent=False):
         if model != '':
             print("user requested model '{:s}'".format(model))
-        whisper_to_write(model=model)
+        if silent:
+            print("user requested silence")
+        whisper_to_write(model=model, silent=silent)
 
     # Main call
+    # windows cli run from location of whisper_to_write.py:   python .\whisper_to_write.py base "silent=True"
+    # windows shortcut:  Target:    C:\Users\<user>\Documents\GitHub\fwgWhisper\whisper_to_write.py base "silent=True"
+    #                    Start in:  C:\Users\<user>\Documents\GitHub\fwgWhisper
     if len(sys.argv) > 1:
-        main(sys.argv[1])
+        print('sending:', sys.argv)
+        main(sys.argv[1], sys.argv[2])
     else:
         main()
