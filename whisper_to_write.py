@@ -23,12 +23,12 @@ import whisper
 import platform
 import tkinter as tk
 from whisper_util import *
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 os.environ['PYTHONIOENCODING'] = 'utf - 8'  # prevents UnicodeEncodeError: 'charmap' codec can't encode character
 
 
 # Wrap the openai Whisper program to make it useful and more portable
-def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=False, conversation=0):
+def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=True, conversation=0):
     print('model', model, 'device', device, 'file_in', file_in, 'waiting', waiting, 'silent', silent)
     # Initialization
     result_ready = False
@@ -121,26 +121,26 @@ def whisper_to_write(model='', device='cpu', file_in=None, waiting=True, silent=
         time.sleep(1.0)
 
     # After all files are processed, ask for input to force hold to see stdout
-    if waiting is True and silent is False:
-        input('\nEnter anything to close window')
+    if waiting is True:
+        if silent is False:
+            input('\nEnter anything to close window')
+        else:
+            messagebox.showinfo(title='openAI whisper', message='files ready')
 
     return txt_path, result_ready
 
 
 if __name__ == '__main__':
-    def main(model='', silent=False):
+    def main(model=''):
         if model != '':
             print("user requested model '{:s}'".format(model))
-        if silent:
-            print("user requested silence")
-        whisper_to_write(model=model, silent=silent)
+        whisper_to_write(model=model)
 
     # Main call
     # windows cli run from location of whisper_to_write.py:   python .\whisper_to_write.py base "silent=True"
     # windows shortcut:  Target:    C:\Users\<user>\Documents\GitHub\fwgWhisper\whisper_to_write.py base "silent=True"
     #                    Start in:  C:\Users\<user>\Documents\GitHub\fwgWhisper
     if len(sys.argv) > 1:
-        print('sending:', sys.argv)
-        main(sys.argv[1], sys.argv[2])
+        main(sys.argv[1])
     else:
         main()

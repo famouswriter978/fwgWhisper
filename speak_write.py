@@ -339,10 +339,10 @@ else:
 button_spacer = tk.Label(transcription_frame, text='  ', bg=bg_color)
 button_spacer.pack(side="left", fill='x', expand=True)
 if platform.system() == 'Darwin':
-    trans_recorder = tktt.TTButton(transcription_frame, text='Transcribe a File', command=transcribe, fg="green",
+    trans_recorder = tktt.TTButton(transcription_frame, text='Transcribe File(s)', command=transcribe, fg="green",
                                    bg=bg_color)
 else:
-    trans_recorder = tk.Button(transcription_frame, text='Transcribe a File', command=transcribe, fg="green",
+    trans_recorder = tk.Button(transcription_frame, text='Transcribe File(s)', command=transcribe, fg="green",
                                bg=bg_color)
 trans_recorder.pack(side="left", fill='x', expand=True)
 
