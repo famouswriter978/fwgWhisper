@@ -221,9 +221,8 @@ def configurator(filepath):
 
 
 # Open text file in editor
-def display_result(txt_path, platform, silent, conversation=0):
-    if conversation == 0:
-        paragraph(txt_path)
+def display_result(txt_path, platform, silent, conversation=False):
+    paragraph(txt_path, conversation)
 
     if silent is False:
         if platform == 'Darwin':
@@ -274,7 +273,7 @@ def load_config(path):
 
 
 # Make paragraph out of jumbled file
-def paragraph(txt_path):
+def paragraph(txt_path, conversation=False):
     with open(txt_path, 'r') as file:
         lines = [line.rstrip() for line in file]
     file.close()
@@ -283,7 +282,11 @@ def paragraph(txt_path):
             file.write(line)
             # APA Guidelines are for one space between sentences
             if line:
-                file.write(' ')
+                l_ch = line[-1]
+                if conversation and (l_ch == '.' or l_ch == '?' or l_ch == '!'):
+                    file.write('\n')
+                else:
+                    file.write(' ')
     file.close()
 
 

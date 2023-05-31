@@ -346,9 +346,9 @@ else:
                                bg=bg_color)
 trans_recorder.pack(side="left", fill='x', expand=True)
 
-ex_root.conversation = tk.IntVar()
+ex_root.conversation = tk.BooleanVar()
 converse_button = tk.Checkbutton(conversation_frame, text='Conversation', bg=bg_color, variable=ex_root.conversation,
-                                 onvalue=1, offvalue=0)
+                                 onvalue=True, offvalue=False)
 converse_button.pack(fill='x', expand=True)
 
 button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
