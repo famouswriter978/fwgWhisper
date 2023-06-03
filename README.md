@@ -69,6 +69,8 @@ The command-line-interface (cli) is four times slower.   Use Native Python provi
 ## Closing notes
 It is well known that reading improves writing, and writing improves comprehension.   Likewise, writing should improve by speaking.   Perhaps we're advancing backwards to an oral tradition.
 
+I acknowledge my daughter Sarah E. Gutz's contributions.  She uses Whisper 'for effect' in her Speech-Language-Pathology work and selflessly provided her time and expertise to make this tool real.  She drew up the logo too!
+
 ## License
 fwgWhisper's code are released under the MIT License.
 See [LICENSE](https://github.com/openai/whisper/blob/main/LICENSE) for further details.
