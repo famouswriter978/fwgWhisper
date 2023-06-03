@@ -4,7 +4,7 @@
 #  'python3 speak_write.py'
 #
 #  2023-May-04  Dave Gutz   Create
-# Copyright (C) 2023 Dave Gutz
+# Copyright (C) 2023 Dave Gutz and Sarah E. Gutz
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

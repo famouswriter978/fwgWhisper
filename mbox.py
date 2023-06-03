@@ -2,7 +2,7 @@
 #
 #  2023-Apr-29  Dave Gutz   Create from Honest Abe at Stackoverflow
 #  https://stackoverflow.com/questions/10057672/correct-way-to-implement-a-custom-popup-tkinter-dialog-box
-# Copyright (C) 2023 Dave Gutz
+# Copyright (C) 2023 Dave Gutz and Sarah E. Gutz
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

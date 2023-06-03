@@ -1,6 +1,6 @@
 #  Utilities for myWhisper
 #  2023-Apr-13  Dave Gutz   Create
-# Copyright (C) 2023 Dave Gutz
+# Copyright (C) 2023 Dave Gutz and Sarah E. Gutz
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
