@@ -255,7 +255,8 @@ recorder = MyRecorder(ex_root.rec_folder)
 # Get/check microphone
 mic_avail = True
 try:
-    audio_devices = PvRecorder.get_audio_devices()
+    # audio_devices = PvRecorder.get_audio_devices() dag 10/29
+    audio_devices = PvRecorder.get_available_devices()
     for index, device in enumerate(audio_devices):
         print(f"[{index}] {device}")
     pa = pyaudio.PyAudio()
