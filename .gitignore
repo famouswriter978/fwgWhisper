@@ -11,3 +11,4 @@ samples_good/*.txt
 samples_good/whisper_to_write.pref
 root_config.ini
 speak_write.py alias
+speak_write copy.py
