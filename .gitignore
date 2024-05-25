@@ -2,6 +2,7 @@ __pycache__/*
 *.odt#
 .eggs/*
 build/*
+dist/*
 .DS_Store
 dist/whisper_to_write.app/*
 .cache
