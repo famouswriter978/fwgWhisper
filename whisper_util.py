@@ -19,7 +19,7 @@ import json
 import inspect
 import subprocess
 import configparser
-import pkg_resources
+import importlib.metadata
 from Colors import Colors
 from mbox import MessageBox
 from typing import Callable, TextIO
@@ -109,9 +109,8 @@ def check_install(platform, pure_python=True):
 def check_install_pkg(pkg, verbose=False):
     if verbose:
         print("checking for {:s}...".format(pkg), end='')
-    installed_packages = pkg_resources.working_set
-    installed_packages_list = sorted(["%s" % i.key for i in installed_packages])
-    return installed_packages_list.__contains__(pkg)
+    installed_packages = importlib.metadata.packages_distributions()
+    return installed_packages.__contains__(pkg)
 
 
 # Check installation status of ffmpeg

@@ -17,10 +17,11 @@
 # Lesser General Public License for more details.
 #
 # See http://www.fsf.org/licensing/licenses/lgpl.txt for full license text.
-
+import sys
 import tkinter.filedialog
 import tkinter.messagebox
-from RawRecorder import *
+from RawRecorder import Recorder
+import pyaudio
 import pydub
 from whisper_to_write import *
 from threading import Thread
@@ -28,7 +29,7 @@ from datetime import datetime
 from pvrecorder import PvRecorder
 result_ready = 0
 thread_active = 0
-if platform.system() == 'Darwin':
+if sys.platform == 'darwin':
     import ttwidgets as tktt
 else:
     import tkinter as tk
