@@ -7,7 +7,7 @@ There are hardware approaches that will make it faster  - 'cuda' package for NVI
 Phones are not capable now of running these tools.   This is a matter of practicality.   I'm sure in ten years the average phone will transcribe real time.  This tool is a stop gap.
 
 The underlying neural
-networks are the same as used for OpenAI's Chat GPT, a famous first example of the new generation of practical AI.
+networks are the same as used for OpenAI's ChatGPT, a famous first example of the new generation of practical AI.
 
 For installation, you either use GitHub desktop app to install or you click on the green '<> Code' box above to download a zip file (easiest).  [source](https://github.com/davegutz/fwgWhisper).   Move into the folder 'Documents/GitHub'
 
