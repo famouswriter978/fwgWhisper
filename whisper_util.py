@@ -69,8 +69,10 @@ def check_install(platform, pure_python=True):
     # Check status
     if platform == 'Darwin' or platform == 'Windows' or platform == 'Linux':
         (have_python, have_pip) = check_install_python(platform)
+        print(f"{have_python=}\n{have_pip=}")
         have_whisper = check_install_whisper(pure_python)
         have_ffmpeg = check_install_ffmpeg(pure_python)
+        print(f"{have_whisper=}\n{have_ffmpeg=}")
         have_ffmpeg_windows = False
         if platform == 'Windows':
             have_ffmpeg_windows = check_install_ffmpeg(pure_python=False)
@@ -78,6 +80,7 @@ def check_install(platform, pure_python=True):
                 have_ffmpeg_windows = False
             else:
                 have_ffmpeg_windows = True
+                print('have ffmpeg')
         print('')
 
         # python help
@@ -88,7 +91,7 @@ def check_install(platform, pure_python=True):
         if not have_pip:
             pip_help(platform)
 
-        # whisper / ffmpeg help:   openai-whisper installs them
+        # whisper / ffmpeg help:   openai-wnisper installs them
         if not have_whisper or not have_ffmpeg or\
                 (platform == 'Windows' and not have_ffmpeg_windows):
             whisper_help(platform, have_whisper, have_ffmpeg, have_ffmpeg_windows)
@@ -116,7 +119,10 @@ def check_install_pkg(pkg, verbose=False):
 # Check installation status of ffmpeg
 def check_install_ffmpeg(pure_python=True, verbose=False):
     if pure_python:
-        have = check_install_pkg('ffmpeg-python')
+        if sys.platform == 'linux':
+            have = check_install_pkg('ffmpeg')
+        else:
+            have = check_install_pkg('ffmpeg-python')
     else:
         test_cmd = 'ffmpeg -version'
         if verbose:
@@ -181,7 +187,10 @@ def check_install_python(platform, verbose=False):
 # Check installation status of whisper
 def check_install_whisper(pure_python=True, verbose=False):
     if pure_python:
-        have = check_install_pkg('openai-whisper')
+        if sys.platform == 'linux':
+            have = check_install_pkg('whisper')
+        else:
+            have = check_install_pkg('openai-whisper')
     else:
         test_cmd = 'whisper --fp16 False -h'
         if verbose:
@@ -312,7 +321,9 @@ def python_help(platform):
             python -m pip install --upgrade pip
             python -m pip install configparser
             python -m pip install openai-whisper --default-timeout=1000 
+              or + openai-whisper
             python -m pip install ffmpeg-python
+              or + ffmpeg-python
             python whisper_to_write.py
             """), Colors.reset, sep=os.linesep)
     # macOS
@@ -330,11 +341,13 @@ def python_help(platform):
     # Linux
     elif platform == 'Linux':
         print(Colors.fg.green, inspect.cleandoc("""
-            #############  Install python3.6+ and check path 'python --version' points to it")
+            #############  Install python3.6+ and 3.12- check path 'python --version' points to it")
             sudo apt update && sudo apt upgrade
-            sudo apt install python3.10
+            sudo apt install python3.11.9
             sudo python3.10 -m pip install upgrade
             sudo pip3 install openai-whisper --default-timeout=1000
+              or + openai-whisper
+                + ffmpeg-python
             pip3 install configparser
             pip3 install shortcuts
             python3 whisper_to_write.py
