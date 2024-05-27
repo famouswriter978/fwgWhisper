@@ -67,7 +67,14 @@ class CustomThread(Thread):
 class ExRoot:
     def __init__(self):
         self.script_loc = os.path.dirname(os.path.abspath(__file__))
-        self.config_path = os.path.join(self.script_loc, 'root_config.ini')
+        config_txt = 'speak_write.ini'
+        if sys.platform == 'linux':
+            self.config_path = os.path.join('/home/daveg/.local/', config_txt)
+        elif sys.platform == 'darwin':
+            self.config_path = os.path.join('/Users/daveg/.local/', config_txt)
+        else:
+            self.config_path = os.path.join('/home/daveg/.local/', config_txt)
+        print('config file', self.config_path)
         self.root_config = None
         self.rec_folder = None
         self.root_config = None
