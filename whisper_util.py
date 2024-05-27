@@ -68,8 +68,8 @@ def check_install(platform, pure_python=True):
 
     # Check status
     if platform == 'Darwin' or platform == 'Windows' or platform == 'Linux':
-        (have_python, have_pip) = check_install_python(platform)
-        print(f"{have_python=}\n{have_pip=}")
+        have_python = check_install_python(platform)
+        print(f"{have_python=}")
         have_whisper = check_install_whisper(pure_python)
         have_ffmpeg = check_install_ffmpeg(pure_python)
         print(f"{have_whisper=}\n{have_ffmpeg=}")
@@ -87,10 +87,6 @@ def check_install(platform, pure_python=True):
         if not have_python:
             python_help(platform)
 
-        # pip help
-        if not have_pip:
-            pip_help(platform)
-
         # whisper / ffmpeg help:   openai-whisper installs them
         if not have_whisper or not have_ffmpeg or\
                 (platform == 'Windows' and not have_ffmpeg_windows):
@@ -98,8 +94,8 @@ def check_install(platform, pure_python=True):
 
         # All good
         # #########Interim don't worry about macOS
-        # If we have_python and have_pip and have_whisper and have_ffmpeg:
-        if have_python and have_pip and have_whisper and have_ffmpeg and \
+        # If we have_python and have_whisper and have_ffmpeg:
+        if have_python and have_whisper and have_ffmpeg and \
                 (platform != 'Windows' or have_ffmpeg_windows):
             return 0
         else:
@@ -141,16 +137,12 @@ def check_install_ffmpeg(pure_python=True, verbose=False):
 # Check installation status of python
 def check_install_python(platform, verbose=False):
     have_python = False
-    have_pip = False
     if platform == 'Darwin':
         test_cmd_python = 'python3 --version'
-        test_cmd_pip = 'python3 -m pip --version'
     elif platform == 'Windows':
         test_cmd_python = 'python --version'
-        test_cmd_pip = 'python -m pip --version'
     elif platform == 'Linux':
         test_cmd_python = 'python3 --version'
-        test_cmd_pip = 'python3 -m pip --version'
     else:
         raise Exception('platform unknown.   Contact your administrator')
     if verbose:
@@ -167,21 +159,12 @@ def check_install_python(platform, verbose=False):
             print(Colors.fg.red, 'failed')
             if ver_no < 3:
                 print("System '", test_cmd_python, "' command points to version<3.  whisper needs 3", Colors.reset)
-            if rel_no < 6:
-                print("System '", test_cmd_python, "' command points to release<6.  whisper needs >=6", Colors.reset)
+            if rel_no < 6 or rel_no > 11:
+                print("System '", test_cmd_python, "' command points to release<6.  whisper needs >=6 and <=11", Colors.reset)
         else:
             have_python = True
             print('success')
-    if verbose:
-        print("checking for {:s}...".format(test_cmd_pip), end='')
-    result = run_shell_cmd(test_cmd_pip, silent=True, save_stdout=True)
-    if result == -1:
-        print(Colors.fg.red, 'failed', Colors.reset)
-    else:
-        have_pip = True
-        if verbose:
-            print('success')
-    return have_python, have_pip
+    return have_python
 
 
 # Check installation status of whisper

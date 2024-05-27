@@ -19,20 +19,27 @@ from Colors import Colors
 import os
 import shutil
 
-test_cmd_create = None
-test_cmd_copy = None
-popcorn_path = os.path.join(os.getcwd(), 'speak_write.png')
-popcorn_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write', 'speak_write.png')
+# Provide dependencies
+if sys.platform != 'linux':
+    test_cmd_create = None
+    test_cmd_copy = None
+    speak_write_icons_path = os.path.join(os.getcwd(), 'speak_write.png')
+    speak_write_icons_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write',  '_internal', 'speak_write.png')
+    fwg_path = os.path.join(os.getcwd(), 'fwg.png')
+    fwg_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write', '_internal', 'fwg.png')
+    shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
+    shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
+    shutil.copyfile(fwg_path, fwg_dest_path)
+    shutil.copystat(fwg_path, fwg_dest_path)
+    print(Colors.fg.green, "copied files", Colors.reset)
 
 # Create executable
 if sys.platform == 'linux':
-    test_cmd_create = "pyinstaller ./speak_write.py --hidden-import='PIL._tkinter_finder' --icon='speak_write.ico' -y"
+    print("simplified...wait for green comments")
 elif sys.platform == 'darwin':
     print("simplified...wait for green comments")
 else:
     test_cmd_create = 'pyinstaller .\\speak_write.py --i speak_write.ico -y'
-
-if sys.platform != 'darwin':
     result = run_shell_cmd(test_cmd_create, silent=False)
     if result == -1:
         print(Colors.fg.red, 'failed', Colors.reset)
@@ -40,26 +47,21 @@ if sys.platform != 'darwin':
     else:
         print(Colors.fg.green, 'success', Colors.reset)
 
-    # Provide dependencies
-    shutil.copyfile(popcorn_path, popcorn_dest_path)
-    shutil.copystat(popcorn_path, popcorn_dest_path)
-    print(Colors.fg.green, "copied files", Colors.reset)
-
 # Install as deeply as possible
 test_cmd_install = None
-if sys.platform == 'linux':
 
-    # Install
+# Install
+if sys.platform == 'linux':
     desktop_entry = """[Desktop Entry]
 Name=speak_write
-Exec=/home/daveg/Documents/GitHub/fwgWhisper/dist/speak_write/speak_write
 Path=/home/daveg/Documents/GitHub/fwgWhisper/dist/speak_write
 Icon=/home/daveg/Documents/GitHub/fwgWhisper/speak_write.ico
 comment=app
-Type=Application
-Terminal=true
 Encoding=UTF-8
 Categories=Utility
+Exec=/home/daveg/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/daveg/Documents/GitHub/fwgWhisper/speak_write.py
+Terminal=true
+Type=Application
 """
     with open("/home/daveg/Desktop/speak_write.desktop", "w") as text_file:
         result = text_file.write("%s" % desktop_entry)
@@ -97,7 +99,7 @@ Categories=Utility
     except PermissionError:
         print(Colors.fg.red, f"Stop and establish sudo permissions", Colors.reset)
         print(Colors.fg.red, f"  or", Colors.reset)
-        print(Colors.fg.red, f"sudo mv /home/daveg/Desktop/speak_write.desktop /usr/share/applications/.",
+        print(Colors.fg.red, f"sudo mv /home/daveg/Desktop/speak_write.desktop /usr/share/applications",
               Colors.reset)
         exit(1)
     if result != '/usr/share/applications/speak_write.desktop':

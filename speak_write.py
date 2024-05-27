@@ -243,7 +243,7 @@ def transcribe():
 
 # --- main ---
 # Configuration for entire folder selection read with filepaths
-if check_install(platform.system()) != 0:
+if sys.platform != 'linux' and check_install(platform.system()) != 0:
     # Ask for input to force hold to see stderr
     print(Colors.fg.red, 'Installation problems.   See messages in window')
     tk.messagebox.showerror(message='Installation problems.   See  messages in window')
@@ -333,9 +333,9 @@ if mic_avail:
     recorder.stop_button.pack(side="left", fill='x', expand=True)
 else:
     if platform.system() == 'Darwin':
-        button_recorder = tk.Button(dictation_frame, text='NO MIC')
+        button_recorder = tktt.Button(dictation_frame, text='NO MIC')
     else:
-        button_recorder = tktt.TTButton(dictation_frame, text='NO MIC')
+        button_recorder = tk.Button(dictation_frame, text='NO MIC')
     button_recorder.pack(side="left", fill='x', expand=True)
 
 button_spacer = tk.Label(transcription_frame, text='  ', bg=bg_color)

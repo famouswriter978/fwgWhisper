@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=['PIL._tkinter_finder'],
+    hiddenimports=['PIL._tkinter_finder', 'pvrecorder.PVRecorder'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -32,7 +32,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['speak_write.ico'],
 )
 coll = COLLECT(
     exe,

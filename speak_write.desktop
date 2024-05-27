@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=speak_write
+Path=/home/daveg/Documents/GitHub/fwgWhisper/dist/speak_write
+Icon=/home/daveg/Documents/GitHub/fwgWhisper/speak_write.ico
+comment=app
+Encoding=UTF-8
+Categories=Utility
+Exec=/home/daveg/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/daveg/Documents/GitHub/fwgWhisper/speak_write.py
+Terminal=true
+Type=Application
+
