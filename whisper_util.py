@@ -91,7 +91,7 @@ def check_install(platform, pure_python=True):
         if not have_pip:
             pip_help(platform)
 
-        # whisper / ffmpeg help:   openai-wnisper installs them
+        # whisper / ffmpeg help:   openai-whisper installs them
         if not have_whisper or not have_ffmpeg or\
                 (platform == 'Windows' and not have_ffmpeg_windows):
             whisper_help(platform, have_whisper, have_ffmpeg, have_ffmpeg_windows)
@@ -406,7 +406,7 @@ def run_shell_cmd(cmd, silent=False, save_stdout=False, colorize=False):
         if save_stdout:
             return stdout_line
         else:
-            return output
+            return exit_code
     else:
         return -1
 
