@@ -51,19 +51,20 @@ else:
 test_cmd_install = None
 
 # Install
+login = os.getlogin()
 if sys.platform == 'linux':
-    desktop_entry = """[Desktop Entry]
+    desktop_entry = f"""[Desktop Entry]
 Name=speak_write
-Path=/home/daveg/Documents/GitHub/fwgWhisper/dist/speak_write
-Icon=/home/daveg/Documents/GitHub/fwgWhisper/speak_write.ico
+Path=/home/{login}/Documents/GitHub/fwgWhisper/dist/speak_write
+Icon=/home/{login}/Documents/GitHub/fwgWhisper/speak_write.ico
 comment=app
 Encoding=UTF-8
 Categories=Utility
-Exec=/home/daveg/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/daveg/Documents/GitHub/fwgWhisper/speak_write.py
+Exec=/home/{login}/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
 Terminal=true
 Type=Application
 """
-    with open("/home/daveg/Desktop/speak_write.desktop", "w") as text_file:
+    with open(f"/home/{login}/Desktop/speak_write.desktop", "w") as text_file:
         result = text_file.write("%s" % desktop_entry)
     if result == -1:
         print(Colors.fg.red, 'failed', Colors.reset)
@@ -71,7 +72,7 @@ Type=Application
         print(Colors.fg.green, 'success', Colors.reset)
 
     #  Launch permission
-    test_cmd_launch = 'gio set /home/daveg/Desktop/speak_write.desktop metadata::trusted true'
+    test_cmd_launch = f'gio set /home/{login}/Desktop/speak_write.desktop metadata::trusted true'
     result = run_shell_cmd(test_cmd_launch, silent=False)
     if result == -1:
         print(Colors.fg.red, 'gio set failed', Colors.reset)
@@ -94,12 +95,12 @@ Type=Application
 
     # Move file
     try:
-        result = shutil.move('/home/daveg/Desktop/speak_write.desktop',
+        result = shutil.move(f'/home/{login}/Desktop/speak_write.desktop',
                              '/usr/share/applications/speak_write.desktop')
     except PermissionError:
         print(Colors.fg.red, f"Stop and establish sudo permissions", Colors.reset)
         print(Colors.fg.red, f"  or", Colors.reset)
-        print(Colors.fg.red, f"sudo mv /home/daveg/Desktop/speak_write.desktop /usr/share/applications",
+        print(Colors.fg.red, f"sudo mv /home/{login}/Desktop/speak_write.desktop /usr/share/applications",
               Colors.reset)
         exit(1)
     if result != '/usr/share/applications/speak_write.desktop':
