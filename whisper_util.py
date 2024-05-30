@@ -115,7 +115,7 @@ def check_install_pkg(pkg, verbose=False):
 # Check installation status of ffmpeg
 def check_install_ffmpeg(pure_python=True, verbose=False):
     if pure_python:
-        if sys.platform == 'linux':
+        if sys.platform == 'linux' or sys.platform == 'win32':
             have = check_install_pkg('ffmpeg')
         else:
             have = check_install_pkg('ffmpeg-python')
@@ -170,7 +170,7 @@ def check_install_python(platform, verbose=False):
 # Check installation status of whisper
 def check_install_whisper(pure_python=True, verbose=False):
     if pure_python:
-        if sys.platform == 'linux':
+        if sys.platform == 'linux' or sys.platform == 'win32':
             have = check_install_pkg('whisper')
         else:
             have = check_install_pkg('openai-whisper')

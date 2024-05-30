@@ -73,7 +73,7 @@ class ExRoot:
         elif sys.platform == 'darwin':
             self.config_path = os.path.join('/Users/daveg/.local/', config_txt)
         else:
-            self.config_path = os.path.join('/home/daveg/.local/', config_txt)
+            self.config_path = os.path.join(os.getenv('LOCALAPPDATA'), config_txt)
         print('config file', self.config_path)
         self.root_config = None
         self.rec_folder = None
