@@ -55,12 +55,12 @@ login = os.getlogin()
 if sys.platform == 'linux':
     desktop_entry = f"""[Desktop Entry]
 Name=speak_write
-Path=/home/{login}/Documents/GitHub/fwgWhisper/dist/speak_write
+Path=/home/{login}/Documents/Recordings
 Icon=/home/{login}/Documents/GitHub/fwgWhisper/speak_write.ico
 comment=app
 Encoding=UTF-8
 Categories=Utility
-Exec=/home/{login}/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
+Exec=/home/{login}/Documents/GitHub/fwgWhisper/.venv/bin/python3.11 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
 Terminal=true
 Type=Application
 """
