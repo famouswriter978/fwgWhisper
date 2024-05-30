@@ -54,7 +54,7 @@ It should return something that looks like
 
 ## Install the dependencies using 'pip'
 
-Use the pip built into PyCharm Interpreter setup to add _openai-whisper, pydub, pvrecorder, pyaudio_
+Use the pip built into PyCharm Interpreter setup to add _openai-whisper, pydub, pvrecorder, pyaudio, pyinstaller_
 
 Alternatively open a non-administrative Power Shell, Terminal (Win 11), or Cmd and run the following anywhere (use 'python3' if needed from previous step).
 ```commandline
@@ -64,7 +64,7 @@ python -m pip install openai-whisper --default-timeout=1000
 python -m pip install pydub
 python -m pip install pvrecorder
 python -m pip install pyaudio
-python -m pip install ttwidgets
+python -m pip install pyinstaller
 ```
 
 ### Running:  [here](RUNNING_windows.md)

@@ -20,6 +20,11 @@ import os
 import shutil
 
 # Provide dependencies
+speak_write_icons_path = None
+speak_write_icons_dest_path = None
+fwg_path = None
+fwg_dest_path = None
+
 if sys.platform != 'linux':
     test_cmd_create = None
     test_cmd_copy = None
@@ -27,18 +32,20 @@ if sys.platform != 'linux':
     speak_write_icons_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write',  '_internal', 'speak_write.png')
     fwg_path = os.path.join(os.getcwd(), 'fwg.png')
     fwg_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write', '_internal', 'fwg.png')
-    shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
-    shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
-    shutil.copyfile(fwg_path, fwg_dest_path)
-    shutil.copystat(fwg_path, fwg_dest_path)
-    print(Colors.fg.green, "copied files", Colors.reset)
 
 # Create executable
 if sys.platform == 'linux':
     print("simplified...wait for green comments")
 elif sys.platform == 'darwin':
     print("simplified...wait for green comments")
-else:
+    shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
+    shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
+    shutil.copyfile(fwg_path, fwg_dest_path)
+    shutil.copystat(fwg_path, fwg_dest_path)
+    print(Colors.fg.green, "copied files", Colors.reset)
+elif sys.platform == 'win32':
+    print(Colors.fg.red, "don't bother.   Not worth efforts to install dependencies for shortcuts.  Just use PyCharm.", Colors.reset)
+    exit(0)
     test_cmd_create = 'pyinstaller .\\speak_write.py --i speak_write.ico -y'
     result = run_shell_cmd(test_cmd_create, silent=False)
     if result == -1:
@@ -46,6 +53,11 @@ else:
         exit(1)
     else:
         print(Colors.fg.green, 'success', Colors.reset)
+    shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
+    shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
+    shutil.copyfile(fwg_path, fwg_dest_path)
+    shutil.copystat(fwg_path, fwg_dest_path)
+    print(Colors.fg.green, "copied files", Colors.reset)
 
 # Install as deeply as possible
 test_cmd_install = None
@@ -114,6 +126,6 @@ elif sys.platform == 'darwin':
           f" Open and copy icon into paste buffer."
           f" Then 'Get Info' on the duplicate, click on 2nd icon, paste.   Drag duplicate item to taskbar.")
 else:
-    print(Colors.fg.green, f"double-click on  'speak_write.exe - Shortcut', browse to DB folder, pin to taskbar",
+    print(Colors.fg.green, f"Browse to ./dist/speak_write.  Create shortcut from the executable.  Copy it to desktop.  \ndouble-click on  'speak_write.exe - Shortcut', browse it's settings to desired Recordings folder, pin to taskbar",
           Colors.reset)
     print(Colors.fg.green, "you shouldn't have to remake shortcuts", Colors.reset)
