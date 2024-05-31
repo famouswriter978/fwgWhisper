@@ -46,9 +46,6 @@ elif sys.platform == 'darwin':
 elif sys.platform == 'win32':
     # print(Colors.fg.red, "don't bother.   Not worth efforts to install dependencies for shortcuts.  Just use PyCharm.", Colors.reset)
     # exit(0)
-    # test_cmd_create = 'pyinstaller .\\speak_write.py --paths="C:\\Users\\daveg\\Documents\\GitHub\\fwgWhisper\\venv\\Lib\\site-packages" --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python"  --recursive-copy-metadata "pvrecorder" --hidden-import="pvrecorder" --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
-    # test_cmd_create = 'pyinstaller .\\speak_write.py --additional-hooks-dir "pvrecorder" --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python"  --recursive-copy-metadata "pvrecorder" --hidden-import="pvrecorder" --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
-    # test_cmd_create = 'pyinstaller .\\speak_write.py --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python"  --recursive-copy-metadata "pvrecorder" --hidden-import="pvrecorder" --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
     test_cmd_create = 'pyinstaller .\\speak_write.py --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python"  --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
     result = run_shell_cmd(test_cmd_create, silent=False)
     if result == -1:
@@ -57,16 +54,19 @@ elif sys.platform == 'win32':
     else:
         print(Colors.fg.green, 'success', Colors.reset)
 
-# """  need to run copy like so:
-#         C:\\Users\\daveg\\Documents\\GitHub\\fwgWhisper\\venv\\Lib\\site-packages\\pvrecorder
-# C:\\Users\\daveg\\Documents\\GitHub\\fwgWhisper\\dist\\speak_write\\_internal\\.
-# """
     # Hand-fix pyinstaller for pvrecorder
     pvr_path = os.path.join(os.getcwd(), 'venv', 'Lib', 'site-packages', 'pvrecorder')
     pvr_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write', '_internal', 'pvrecorder')
     shutil.copytree(pvr_path, pvr_dest_path)
     shutil.copystat(pvr_path, pvr_dest_path)
     print(Colors.fg.green, "copied pvrecorder", Colors.reset)
+
+    # Hand-fix pyinstaller for whisper
+    whi_path = os.path.join(os.getcwd(), 'venv', 'Lib', 'site-packages', 'whisper')
+    whi_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write', '_internal', 'whisper')
+    shutil.copytree(whi_path, whi_dest_path)
+    shutil.copystat(whi_path, whi_dest_path)
+    print(Colors.fg.green, "copied whisper", Colors.reset)
 
     shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
     shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
