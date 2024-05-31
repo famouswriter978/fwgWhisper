@@ -44,9 +44,9 @@ elif sys.platform == 'darwin':
     shutil.copystat(fwg_path, fwg_dest_path)
     print(Colors.fg.green, "copied files", Colors.reset)
 elif sys.platform == 'win32':
-    print(Colors.fg.red, "don't bother.   Not worth efforts to install dependencies for shortcuts.  Just use PyCharm.", Colors.reset)
-    exit(0)
-    test_cmd_create = 'pyinstaller .\\speak_write.py --i speak_write.ico -y'
+    # print(Colors.fg.red, "don't bother.   Not worth efforts to install dependencies for shortcuts.  Just use PyCharm.", Colors.reset)
+    # exit(0)
+    test_cmd_create = 'pyinstaller .\\speak_write.py --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python" --hidden-import="pvrecorder" --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
     result = run_shell_cmd(test_cmd_create, silent=False)
     if result == -1:
         print(Colors.fg.red, 'failed', Colors.reset)
