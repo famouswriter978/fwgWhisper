@@ -38,11 +38,11 @@ if sys.platform == 'linux':
     print("simplified...wait for green comments")
 elif sys.platform == 'darwin':
     print("simplified...wait for green comments")
-    shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
-    shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
-    shutil.copyfile(fwg_path, fwg_dest_path)
-    shutil.copystat(fwg_path, fwg_dest_path)
-    print(Colors.fg.green, "copied files", Colors.reset)
+    # shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
+    # shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
+    # shutil.copyfile(fwg_path, fwg_dest_path)
+    # shutil.copystat(fwg_path, fwg_dest_path)
+    # print(Colors.fg.green, "copied files", Colors.reset)
 elif sys.platform == 'win32':
     # print(Colors.fg.red, "don't bother.   Not worth efforts to install dependencies for shortcuts.  Just use PyCharm.", Colors.reset)
     # exit(0)

@@ -105,33 +105,30 @@ def check_install(platform, pure_python=True):
         return -1
 
 
-def check_install_pkg(pkg, verbose=False):
-    if verbose:
-        print("checking for {:s}...".format(pkg), end='')
-    installed_packages = importlib.metadata.packages_distributions()
-    return installed_packages.__contains__(pkg)
-
-
 # Check installation status of ffmpeg
 def check_install_ffmpeg(pure_python=True, verbose=False):
     if pure_python:
-        if sys.platform == 'linux' or sys.platform == 'win32':
-            have = check_install_pkg('ffmpeg')
-        else:
-            have = check_install_pkg('ffmpeg-python')
+        have = check_install_pkg('ffmpeg')
     else:
         test_cmd = 'ffmpeg -version'
         if verbose:
             print('')
             print("checking for {:s}...".format(test_cmd), end='')
         have = run_shell_cmd(test_cmd, silent=True)
-    if have == -1:
+    if have is False:
         print(Colors.fg.red, 'failed')
         print(Colors.fg.green, 'Install ffmpeg', Colors.reset)
     else:
         if verbose:
             print('success')
     return have
+
+
+def check_install_pkg(pkg, verbose=False):
+    if verbose:
+        print("checking for {:s}...".format(pkg), end='')
+    installed_packages = importlib.metadata.packages_distributions()
+    return installed_packages.__contains__(pkg)
 
 
 # Check installation status of python
@@ -170,17 +167,14 @@ def check_install_python(platform, verbose=False):
 # Check installation status of whisper
 def check_install_whisper(pure_python=True, verbose=False):
     if pure_python:
-        if sys.platform == 'linux' or sys.platform == 'win32':
-            have = check_install_pkg('whisper')
-        else:
-            have = check_install_pkg('openai-whisper')
+        have = check_install_pkg('whisper')
     else:
         test_cmd = 'whisper --fp16 False -h'
         if verbose:
             print('')
             print("checking for {:s}...".format(test_cmd), end='')
         have = run_shell_cmd(test_cmd, silent=True, save_stdout=True)
-    if have == -1:
+    if have is False:
         print(Colors.fg.red, 'failed', Colors.reset)
     else:
         if verbose:
