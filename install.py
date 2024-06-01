@@ -38,14 +38,7 @@ if sys.platform == 'linux':
     print("simplified...wait for green comments")
 elif sys.platform == 'darwin':
     print("simplified...wait for green comments")
-    # shutil.copyfile(speak_write_icons_path, speak_write_icons_dest_path)
-    # shutil.copystat(speak_write_icons_path, speak_write_icons_dest_path)
-    # shutil.copyfile(fwg_path, fwg_dest_path)
-    # shutil.copystat(fwg_path, fwg_dest_path)
-    # print(Colors.fg.green, "copied files", Colors.reset)
 elif sys.platform == 'win32':
-    # print(Colors.fg.red, "don't bother.   Not worth efforts to install dependencies for shortcuts.  Just use PyCharm.", Colors.reset)
-    # exit(0)
     test_cmd_create = 'pyinstaller .\\speak_write.py --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python"  --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
     result = run_shell_cmd(test_cmd_create, silent=False)
     if result == -1:
@@ -87,7 +80,7 @@ Icon=/home/{login}/Documents/GitHub/fwgWhisper/speak_write.ico
 comment=app
 Encoding=UTF-8
 Categories=Utility
-Exec=/home/{login}/Documents/GitHub/fwgWhisper/.venv/bin/python3.11 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
+Exec=/home/{login}/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
 Terminal=true
 Type=Application
 """
