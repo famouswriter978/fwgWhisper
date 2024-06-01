@@ -1,3 +1,4 @@
+#! /usr/local/bin/python3.10
 #  Graphical interface to whisper:  dictate, read file, transcribe
 #  Run in PyCharm
 #     or

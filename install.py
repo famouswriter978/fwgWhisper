@@ -137,9 +137,13 @@ Type=Application
               Colors.reset)
         print(Colors.fg.green, "you shouldn't have to remake shortcuts", Colors.reset)
 elif sys.platform == 'darwin':
-    print(f"macOS: in Finder ctrl-click on 'speak_write.py' select 'duplicate.'"
-          f" Open and copy icon into paste buffer."
-          f" Then 'Get Info' on the duplicate, click on 2nd icon, paste.   Drag duplicate item to taskbar.")
+    print(Colors.fg.green, f"macOS: modify #! at top of 'speak_write.py' to be the same as what PyCharm calls\n"
+                           f"  - see first line of PyCharm execution at the top of the screen your looking at.  Copy/past that whole line.\n"
+                           f"Make sure 'Python Launcher' (Python Script Preferences) option for 'Allow override with #! in script' is checked.\n"
+                           f"in Finder ctrl-click on 'speak_write.py' select 'duplicate.'\n"
+                           f"   - Open and copy icon into paste buffer.\n"
+                           f"   - Then 'Get Info' on the duplicate, click on 2nd icon, paste.   Drag duplicate item to taskbar.",
+          Colors.reset)
 else:
     print(Colors.fg.green, f"Browse to ./dist/speak_write.  Create shortcut from the executable.  Copy it to desktop.  \ndouble-click on  'speak_write.exe - Shortcut', browse it's settings to desired Recordings folder, pin to taskbar",
           Colors.reset)
