@@ -80,7 +80,7 @@ Icon=/home/{login}/Documents/GitHub/fwgWhisper/speak_write.ico
 comment=app
 Encoding=UTF-8
 Categories=Utility
-Exec=/home/{login}/Documents/GitHub/fwgWhisper/venv/bin/python3.11 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
+Exec=/home/{login}/Documents/GitHub/fwgWhisper/venv/bin/python3 /home/{login}/Documents/GitHub/fwgWhisper/speak_write.py
 Terminal=true
 Type=Application
 """
