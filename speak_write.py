@@ -1,4 +1,7 @@
-#! /usr/local/bin/python3.10
+#! /bin/sh
+"exec" "`dirname $0`/venv/bin/python3" "$0" "$@"
+# #! /Users/daveg/Documents/GitHub/fwgWhisper/venv/bin/python3
+# The #! operates for macOS only. 'Python Launcher' (Python Script Preferences) option for 'Allow override with #! in script' is checked.
 #  Graphical interface to whisper:  dictate, read file, transcribe
 #  Run in PyCharm
 #     or
