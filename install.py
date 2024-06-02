@@ -25,20 +25,13 @@ speak_write_icons_dest_path = None
 fwg_path = None
 fwg_dest_path = None
 
-if sys.platform != 'linux':
-    test_cmd_create = None
+# Create executable
+if sys.platform == 'win32':
     test_cmd_copy = None
     speak_write_icons_path = os.path.join(os.getcwd(), 'speak_write.png')
     speak_write_icons_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write',  '_internal', 'speak_write.png')
     fwg_path = os.path.join(os.getcwd(), 'fwg.png')
     fwg_dest_path = os.path.join(os.getcwd(), 'dist', 'speak_write', '_internal', 'fwg.png')
-
-# Create executable
-if sys.platform == 'linux':
-    print("simplified...wait for green comments")
-elif sys.platform == 'darwin':
-    print("simplified...wait for green comments")
-elif sys.platform == 'win32':
     test_cmd_create = 'pyinstaller .\\speak_write.py --recursive-copy-metadata "openai-whisper" --recursive-copy-metadata "ffmpeg-python"  --recursive-copy-metadata "pyaudio" --i speak_write.ico -y'
     result = run_shell_cmd(test_cmd_create, silent=False)
     if result == -1:
