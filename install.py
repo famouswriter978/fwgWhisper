@@ -111,24 +111,29 @@ Type=Application
         result = shutil.move(f'/home/{login}/Desktop/speak_write.desktop',
                              '/usr/share/applications/speak_write.desktop')
     except PermissionError:
-        print(Colors.fg.red, f"Stop and establish sudo permissions", Colors.reset)
-        print(Colors.fg.red, f"  or", Colors.reset)
-        print(Colors.fg.red, f"sudo mv /home/{login}/Desktop/speak_write.desktop /usr/share/applications",
+        print(Colors.fg.red,
+              f"Stop and establish sudo permissions", f"  or\n"
+              f"sudo mv /home/{login}/Desktop/speak_write.desktop /usr/share/applications",
               Colors.reset)
         exit(1)
     if result != '/usr/share/applications/speak_write.desktop':
         print(Colors.fg.red, f"'mv ...' failed code {result}", Colors.reset)
     else:
-        print(Colors.fg.green, 'mv success.  Browse apps :: and make it favorites.  Open and set path to dataReduction',
+        print(Colors.fg.green,
+              'mv success.  Browse apps :: and make it favorites.  Open and set path to dataReduction\n'
+              "you shouldn't have to remake shortcuts",
               Colors.reset)
-        print(Colors.fg.green, "you shouldn't have to remake shortcuts", Colors.reset)
 elif sys.platform == 'darwin':
     print(Colors.fg.green,
           f"Make sure 'Python Launcher' (Python Script Preferences) option for 'Allow override with #! in script' is checked.\n"
-          f"in Finder double-click on 'speak_write.png'.  Edit-copy the image"
+          f"in Finder double-click on 'speak_write.png'.  Edit-copy the image\n"
           f"in Finder ctrl-click on 'speak_write.py'\n"
-          f"   - 'Get Info', click on 2nd icon, paste.   Drag item to taskbar.", Colors.reset)
-else:
-    print(Colors.fg.green, f"Browse to ./dist/speak_write.  Create shortcut from the executable.  Copy it to desktop.  \ndouble-click on  'speak_write.exe - Shortcut', browse it's settings to desired Recordings folder, pin to taskbar",
+          f"   - 'Get Info', click on 2nd icon, paste.   Drag item to taskbar.",
           Colors.reset)
-    print(Colors.fg.green, "you shouldn't have to remake shortcuts", Colors.reset)
+else:
+    print(Colors.fg.green,
+          f"Browse to ./dist/speak_write and double-click.  Create shortcut first time and move to desktop.\n"
+          f"double-click on  'speak_write.exe - Shortcut', browse it's settings to desired Recordings folder, pin to taskbar\n"
+          f"in shortcut properties, make sure 'Start in:' is this folder where this script resides\n"
+          "you shouldn't have to remake shortcuts",
+          Colors.reset)
