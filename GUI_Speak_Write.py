@@ -43,13 +43,13 @@ else:
 plat = sys.platform
 if plat == 'linux':
     username = os.getlogin()
-    default_dr = os.path.join('home', username, 'Recordings')
+    default_dr = os.path.join('/home', username, 'Recordings')
 elif plat == 'darwin':
     username = os.path.expanduser('~')
     default_dr = os.path.join(username, 'Recordings')
 else:
-    username = os.getlogin()
-    default_dr = os.path.join('home', username, 'Recordings')
+    username = os.path.expanduser('~')
+    default_dr = os.path.join(username, 'Recordings')
 if not os.path.exists(default_dr):
     os.makedirs(default_dr)
 
@@ -225,7 +225,7 @@ class MyRecorder:
 # Global functions
 def make_exit():
     show_all()
-    root.destroy()
+    master.destroy()
 
 
 def quitting():
@@ -305,21 +305,21 @@ if __name__ == '__main__':
         mic_avail = False
 
     # Define frames
-    root = tk.Tk()
-    root.maxsize(380, 800)
-    root.title('openAI whisper')
+    master = tk.Tk()
+    master.maxsize(380, 800)
+    master.title('openAI whisper')
     icon_path = os.path.join(ex_root.script_loc, 'fwg.png')
-    root.iconphoto(False, tk.PhotoImage(file=icon_path))
+    master.iconphoto(False, tk.PhotoImage(file=icon_path))
 
     # Checks
     bg_color = "lightgray"
     box_color = "lightgray"
     relief = tk.FLAT
 
-    outer_frame = tk.Frame(root, bd=5, bg=bg_color)
+    outer_frame = tk.Frame(master, bd=5, bg=bg_color)
     outer_frame.pack(fill='x')
 
-    pic_frame = tk.Frame(root, bd=5, bg=bg_color)
+    pic_frame = tk.Frame(master, bd=5, bg=bg_color)
     pic_frame.pack(fill='x')
 
     pad_x_frames = 1
@@ -411,4 +411,4 @@ if __name__ == '__main__':
     image.label.pack()
 
     # Begin
-    root.mainloop()
+    master.mainloop()
