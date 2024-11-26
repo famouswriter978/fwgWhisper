@@ -77,8 +77,8 @@ class ExRoot:
             self.username = os.getlogin()
             self.config_path = os.path.join('/home', self.username, '.local', config_txt)
         elif sys.platform == 'darwin':
-            self.username = os.getlogin()
-            self.config_path = os.path.join('/Users', self.username, '.local', config_txt)
+            self.username = os.path.expanduser('~')
+            self.config_path = os.path.join(self.username, '.local', config_txt)
         else:
             self.config_path = os.path.join(os.getenv('LOCALAPPDATA'), config_txt)
         print('config file', self.config_path)
