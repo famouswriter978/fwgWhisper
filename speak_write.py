@@ -1,5 +1,6 @@
 #! /bin/sh
 "exec" "`dirname $0`/venv/bin/python3" "$0" "$@"
+import os
 # #! /Users/daveg/Documents/GitHub/fwgWhisper/venv/bin/python3
 # The #! operates for macOS only. 'Python Launcher' (Python Script Preferences) option for 'Allow override with #! in script' is checked.
 #  Graphical interface to whisper:  dictate, read file, transcribe
@@ -73,9 +74,11 @@ class ExRoot:
         self.script_loc = os.path.dirname(os.path.abspath(__file__))
         config_txt = 'speak_write.ini'
         if sys.platform == 'linux':
-            self.config_path = os.path.join('/home/daveg/.local/', config_txt)
+            self.username = os.getlogin()
+            self.config_path = os.path.join('/home', self.username, '.local', config_txt)
         elif sys.platform == 'darwin':
-            self.config_path = os.path.join('/Users/daveg/.local/', config_txt)
+            self.username = os.getlogin()
+            self.config_path = os.path.join('/Users', self.username, '.local', config_txt)
         else:
             self.config_path = os.path.join(os.getenv('LOCALAPPDATA'), config_txt)
         print('config file', self.config_path)
