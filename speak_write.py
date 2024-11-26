@@ -280,7 +280,7 @@ except IOError:
 
 # Define frames
 root = tk.Tk()
-root.maxsize(300, 800)
+root.maxsize(380, 800)
 root.title('openAI whisper')
 icon_path = os.path.join(ex_root.script_loc, 'fwg.png')
 root.iconphoto(False, tk.PhotoImage(file=icon_path))
