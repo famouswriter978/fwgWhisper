@@ -50,35 +50,19 @@ Close and reopen any terminal windows to incorporate the new PATH.   Alternative
 Open a terminal (Launchpad - terminal) and run the following as yourself no matter where it opens to
 
 ```
-# Try this
-python3 -m pip install --upgrade pip
-
-# If pip not found then do this
-sudo apt install python3-pip
-python3 -m pip install --upgrade pip
-
-# Continue with these dependencies
-
-pip install configparser
-python3 -m pip install pyshortcuts
-python3 -m pip install torch --no-cache-dir --default-timeout=1000  # This installs large cuda files
-pip3 install openai-whisper --default-timeout=1000  # This installs 'whisper' and 'ffmpeg'
-python3 -m pip install pydub
-python3 -m pip install pvrecorder
-python3 -m pip install ttwidgets
-. ~/.bashrc
-sudo apt install ffmpeg
-sudo apt install libsound-dev  # for ALSA
-# get portaudio at files.portaudio.com/download.html
-# extract in Downloads (extract here after right click)
-cd Downloads/
-# descend to portaudio
-./configure
-# verify 'ALSA....yes'
-make
-sudo make install
-sudo ldconfig
-python3 -m pip install pyaudio
+# open pyCharm.
+   - Setup local interpreter pointing to a python >=3.8 and <3.12.
+   - You can find instructions for installing a new interpreter here:
+   https://drive.google.com/open?id=1-ANANsynB4KywgxAkJ2sMGLSDicpdLdo&usp=drive_fs
+   - Pop!_OS is slightly different as covered here:
+        https://drive.google.com/open?id=1Nu-Jjj5KC27_ov1M4e8BTsm9PFwOTfmk&usp=drive_fs
+   - Summary of pyCharm setup
+        sudo apt install python3-dev, portaudio19-dev, ffmpeg, libssl-dev, libsound-dev, python3-tk
+        # start pycharm-community using command line
+        # set Help - Change Memory Settings - 4096 (for openai-whisper install)
+        # point at python interpreter, load packages:  ffmpeg-python, openai-whisper, pvrecorder, pvdub, pvaudio
+	    # Run 'speak_write.py'.  When it works, run 'install.py'.
+   - For any linux operating system let pyCharm find the missing dependencies
 ```
 
 ### Running:  [here](RUNNING_linux.md)
@@ -89,7 +73,7 @@ We're going to make this all run with a mouse click by creating a shortcut.
 #### Before making the shortcut, try it in a shell to make sure it works.
 ``` commandline
 cd Documents/GitHub/fwgWhisper
-python3 whisper_to_write.py
+python3 GUI_Speak_Write.py
 ```
    - Ensure there are no failures in the checks.  You will know it has passed if it pops up a file selection box
    - Select one of the test files that came with 'fwgWhisper.'  The file 'FGP_160kbps_m4a.m4a' file is a good, short choice.
@@ -101,12 +85,8 @@ python3 whisper_to_write.py
 
 #### To make the shortcut do the following:
    - Browse to 'fwgWhisper.'
-   - run `python3 setuplinux.py`
-   - You will now see a new file 'whisper_to_write' shortcut on the desktop
-   - Right-click on 'whisper_to_write' and open with an editor.  It will look something like, with your username in place of '<user>'.
-        [whisper_to_write.desktop](../whisper_to_write.desktop)
-   - Change the 'Path' line to something more useful, so it opens to where your recordings are:
-`Path=/home/<username>/Documents/GitHub/fwgWhisper`
+   - run `python3 install.py` (or in pyCharm)
+   - follow instructions in output
 
    - If you want, make life easier by adding 'small.en' after the 'Target:' data to force it to always run the excellent small model without having to select it everytime the program runs
 
