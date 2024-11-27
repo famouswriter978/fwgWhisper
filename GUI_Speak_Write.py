@@ -6,7 +6,7 @@ import os
 #  Graphical interface to whisper:  dictate, read file, transcribe
 #  Run in PyCharm
 #     or
-#  'python3 speak_write.py'
+#  'python3 GUI_speak_write.py'
 #
 #  2023-May-04  Dave Gutz   Create
 # Copyright (C) 2023 Dave Gutz and Sarah E. Gutz

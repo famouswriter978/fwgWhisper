@@ -8,7 +8,7 @@ datas += copy_metadata('pyaudio', recursive=True)
 
 
 a = Analysis(
-    ['speak_write.py'],
+    ['gui_speak_write.py'],
     pathex=[],
     binaries=[],
     datas=datas,
@@ -27,7 +27,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='speak_write',
+    name='gui_speak_write',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -47,5 +47,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='speak_write',
+    name='gui_speak_write',
 )
