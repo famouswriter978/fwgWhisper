@@ -22,4 +22,4 @@
 from pyshortcuts import make_shortcut
 
 make_shortcut('whisper_to_write.py', name='whisper_to_write')
-make_shortcut('speak_write.py', name='speak_write')
+make_shortcut('gui_speak_write.py', name='speak_write')

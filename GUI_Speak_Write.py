@@ -6,7 +6,7 @@ import os
 #  Graphical interface to whisper:  dictate, read file, transcribe
 #  Run in PyCharm
 #     or
-#  'python3 speak_write.py'
+#  'python3 GUI_speak_write.py'
 #
 #  2023-May-04  Dave Gutz   Create
 # Copyright (C) 2023 Dave Gutz and Sarah E. Gutz
@@ -32,6 +32,7 @@ from whisper_to_write import *
 from threading import Thread
 from datetime import datetime
 from pvrecorder import PvRecorder
+from Begini import Begini
 result_ready = 0
 thread_active = 0
 if sys.platform == 'darwin':
@@ -39,6 +40,24 @@ if sys.platform == 'darwin':
 else:
     import tkinter as tk
 
+plat = sys.platform
+if plat == 'linux':
+    username = os.getlogin()
+    default_dr = os.path.join('/home', username, 'Recordings')
+elif plat == 'darwin':
+    username = os.path.expanduser('~')
+    default_dr = os.path.join(username, 'Recordings')
+else:
+    username = os.path.expanduser('~')
+    default_dr = os.path.join(username, 'Recordings')
+if not os.path.exists(default_dr):
+    os.makedirs(default_dr)
+
+def_dict = {
+    'Root Preferences': {
+        "recordings_path": default_dr,
+    },
+}
 
 # Wrap thread class so can extract resulting filename
 class CustomThread(Thread):
@@ -70,9 +89,11 @@ class CustomThread(Thread):
 
 # Executive class to control the global variables
 class ExRoot:
-    def __init__(self):
+    def __init__(self, cf_=None):
+        self.cf = cf_
         self.script_loc = os.path.dirname(os.path.abspath(__file__))
-        config_txt = 'speak_write.ini'
+
+        config_txt = 'GUI_Speak_Write.ini'
         if sys.platform == 'linux':
             self.username = os.getlogin()
             self.config_path = os.path.join('/home', self.username, '.local', config_txt)
@@ -82,8 +103,9 @@ class ExRoot:
         else:
             self.config_path = os.path.join(os.getenv('LOCALAPPDATA'), config_txt)
         print('config file', self.config_path)
+
         self.root_config = None
-        self.rec_folder = None
+        self.rec_folder = self.cf['Root Preferences']['recordings_path']
         self.root_config = None
         self.load_root_config(self.config_path)
         self.conversation = None
@@ -97,9 +119,9 @@ class ExRoot:
         os.chdir(self.rec_folder)
         print('changed working directory to', self.rec_folder)
         folder_button.config(text=self.rec_folder)
-        before_folder = self.root_config['Root Preferences']['recordings path']
-        self.root_config.set('Root Preferences', 'recordings path', self.rec_folder)
-        after_folder = self.root_config['Root Preferences']['recordings path']
+        before_folder = self.root_config['Root Preferences']['recordings_path']
+        self.root_config.set('Root Preferences', 'recordings_path', self.rec_folder)
+        after_folder = self.root_config['Root Preferences']['recordings_path']
         self.save_root_config(self.config_path)
         print('Changed recordings folder from\n', before_folder, '\nto\n', after_folder)
 
@@ -113,10 +135,10 @@ class ExRoot:
             rec_folder_path = os.path.expanduser('~') + '/Documents/Recordings'
             if not os.path.exists(rec_folder_path):
                 os.makedirs(rec_folder_path)
-            self.root_config.set('Root Preferences', 'recordings path', rec_folder_path)
+            self.root_config.set('Root Preferences', 'recordings_path', rec_folder_path)
             self.root_config.write(cfg_file)
             cfg_file.close()
-        self.rec_folder = self.root_config['Root Preferences']['recordings path']
+        self.rec_folder = self.root_config['Root Preferences']['recordings_path']
         print('Recordings folder is', self.rec_folder)
         return self.root_config
 
@@ -203,7 +225,7 @@ class MyRecorder:
 # Global functions
 def make_exit():
     show_all()
-    root.destroy()
+    master.destroy()
 
 
 def quitting():
@@ -255,137 +277,138 @@ def transcribe():
             pass
 
 
-# --- main ---
-# Configuration for entire folder selection read with filepaths
-if sys.platform != 'linux' and check_install(platform.system()) != 0:
-    # Ask for input to force hold to see stderr
-    print(Colors.fg.red, 'Installation problems.   See messages in window')
-    tk.messagebox.showerror(message='Installation problems.   See  messages in window')
-    exit(0)
+if __name__ == '__main__':
+    # Configuration for entire folder selection read with filepaths
+    if sys.platform != 'linux' and check_install(platform.system()) != 0:
+        # Ask for input to force hold to see stderr
+        print(Colors.fg.red, 'Installation problems.   See messages in window')
+        tk.messagebox.showerror(message='Installation problems.   See  messages in window')
+        exit(0)
 
-cwd_path = os.getcwd()
-ex_root = ExRoot()
-recorder = MyRecorder(ex_root.rec_folder)
+    cwd_path = os.getcwd()
+    cf = Begini(__file__, def_dict)
+    ex_root = ExRoot(cf_=cf)
+    recorder = MyRecorder(ex_root.rec_folder)
 
-# Get/check microphone
-mic_avail = True
-try:
-    # audio_devices = PvRecorder.get_audio_devices() dag 10/29
-    audio_devices = PvRecorder.get_available_devices()
-    for index, device in enumerate(audio_devices):
-        print(f"[{index}] {device}")
-    pa = pyaudio.PyAudio()
-    default = pa.get_default_input_device_info()  # raises IOError
-    print('using', default['name'])
-except IOError:
-    print(Colors.fg.red, 'Default microphone not found.  Capability limited', Colors.reset)
-    mic_avail = False
+    # Get/check microphone
+    mic_avail = True
+    try:
+        # audio_devices = PvRecorder.get_audio_devices() dag 10/29
+        audio_devices = PvRecorder.get_available_devices()
+        for index, device in enumerate(audio_devices):
+            print(f"[{index}] {device}")
+        pa = pyaudio.PyAudio()
+        default = pa.get_default_input_device_info()  # raises IOError
+        print('using', default['name'])
+    except IOError:
+        print(Colors.fg.red, 'Default microphone not found.  Capability limited', Colors.reset)
+        mic_avail = False
 
-# Define frames
-root = tk.Tk()
-root.maxsize(380, 800)
-root.title('openAI whisper')
-icon_path = os.path.join(ex_root.script_loc, 'fwg.png')
-root.iconphoto(False, tk.PhotoImage(file=icon_path))
+    # Define frames
+    master = tk.Tk()
+    master.maxsize(380, 800)
+    master.title('openAI whisper')
+    icon_path = os.path.join(ex_root.script_loc, 'fwg.png')
+    master.iconphoto(False, tk.PhotoImage(file=icon_path))
 
-# Checks
-bg_color = "lightgray"
-box_color = "lightgray"
-relief = tk.FLAT
+    # Checks
+    bg_color = "lightgray"
+    box_color = "lightgray"
+    relief = tk.FLAT
 
-outer_frame = tk.Frame(root, bd=5, bg=bg_color)
-outer_frame.pack(fill='x')
+    outer_frame = tk.Frame(master, bd=5, bg=bg_color)
+    outer_frame.pack(fill='x')
 
-pic_frame = tk.Frame(root, bd=5, bg=bg_color)
-pic_frame.pack(fill='x')
+    pic_frame = tk.Frame(master, bd=5, bg=bg_color)
+    pic_frame.pack(fill='x')
 
-pad_x_frames = 1
-pad_y_frames = 2
+    pad_x_frames = 1
+    pad_y_frames = 2
 
-recordings_frame = tk.Frame(outer_frame, width=250, height=200, bg=box_color, bd=4)
-recordings_frame.pack(side=tk.TOP)
+    recordings_frame = tk.Frame(outer_frame, width=250, height=200, bg=box_color, bd=4)
+    recordings_frame.pack(side=tk.TOP)
 
-dictation_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-dictation_frame.pack(side=tk.TOP)
+    dictation_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
+    dictation_frame.pack(side=tk.TOP)
 
-transcription_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-transcription_frame.pack(side=tk.TOP)
+    transcription_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
+    transcription_frame.pack(side=tk.TOP)
 
-conversation_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-conversation_frame.pack(side=tk.TOP)
+    conversation_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
+    conversation_frame.pack(side=tk.TOP)
 
-quit_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
-quit_frame.pack(side=tk.TOP)
+    quit_frame = tk.Frame(outer_frame, width=250, height=100, bg=box_color, bd=4, relief=relief)
+    quit_frame.pack(side=tk.TOP)
 
-folder_label = tk.Label(recordings_frame, text='Recordings path', bg=box_color, fg="blue")
-folder_label.pack()
-if platform.system() == 'Darwin':
-    folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
+    folder_label = tk.Label(recordings_frame, text='Recordings path', bg=box_color, fg="blue")
+    folder_label.pack()
+    if platform.system() == 'Darwin':
+        folder_button = tktt.TTButton(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
+                                      fg="blue", bg=bg_color)
+    else:
+        folder_button = tk.Button(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
                                   fg="blue", bg=bg_color)
-else:
-    folder_button = tk.Button(recordings_frame, text=ex_root.rec_folder, command=select_recordings_folder,
-                              fg="blue", bg=bg_color)
-folder_button.pack(ipadx=5, pady=5)
+    folder_button.pack(ipadx=5, pady=5)
 
-if mic_avail:
-    button_spacer = tk.Label(dictation_frame, text=' ', bg=bg_color)
+    if mic_avail:
+        button_spacer = tk.Label(dictation_frame, text=' ', bg=bg_color)
+        button_spacer.pack(side="left", fill='x', expand=True)
+
+        if platform.system() == 'Darwin':
+            recorder.dictate_button = tktt.TTButton(dictation_frame, text='Dictate', command=start, bg="red", fg="white")
+        else:
+            recorder.dictate_button = tk.Button(dictation_frame, text='Dictate', command=start, bg="red", fg="white")
+        recorder.dictate_button.pack(side="left", fill='x', expand=True)
+
+        button_spacer = tk.Label(dictation_frame, text='          ', bg=bg_color)
+        button_spacer.pack(side="left", fill='x', expand=True)
+
+        if platform.system() == 'Darwin':
+            recorder.stop_button = tktt.TTButton(dictation_frame, text='Stop', command=stop, bg="lightgray", fg="white")
+        else:
+            recorder.stop_button = tk.Button(dictation_frame, text='Stop', command=stop, bg="lightgray", fg="white")
+        recorder.stop_button.pack(side="left", fill='x', expand=True)
+    else:
+        if platform.system() == 'Darwin':
+            button_recorder = tktt.Button(dictation_frame, text='NO MIC')
+        else:
+            button_recorder = tk.Button(dictation_frame, text='NO MIC')
+        button_recorder.pack(side="left", fill='x', expand=True)
+
+    button_spacer = tk.Label(transcription_frame, text='  ', bg=bg_color)
     button_spacer.pack(side="left", fill='x', expand=True)
-
     if platform.system() == 'Darwin':
-        recorder.dictate_button = tktt.TTButton(dictation_frame, text='Dictate', command=start, bg="red", fg="white")
+        trans_recorder = tktt.TTButton(transcription_frame, text='Transcribe File(s)', command=transcribe, fg="green",
+                                       bg=bg_color)
     else:
-        recorder.dictate_button = tk.Button(dictation_frame, text='Dictate', command=start, bg="red", fg="white")
-    recorder.dictate_button.pack(side="left", fill='x', expand=True)
-
-    button_spacer = tk.Label(dictation_frame, text='          ', bg=bg_color)
-    button_spacer.pack(side="left", fill='x', expand=True)
-
-    if platform.system() == 'Darwin':
-        recorder.stop_button = tktt.TTButton(dictation_frame, text='Stop', command=stop, bg="lightgray", fg="white")
-    else:
-        recorder.stop_button = tk.Button(dictation_frame, text='Stop', command=stop, bg="lightgray", fg="white")
-    recorder.stop_button.pack(side="left", fill='x', expand=True)
-else:
-    if platform.system() == 'Darwin':
-        button_recorder = tktt.Button(dictation_frame, text='NO MIC')
-    else:
-        button_recorder = tk.Button(dictation_frame, text='NO MIC')
-    button_recorder.pack(side="left", fill='x', expand=True)
-
-button_spacer = tk.Label(transcription_frame, text='  ', bg=bg_color)
-button_spacer.pack(side="left", fill='x', expand=True)
-if platform.system() == 'Darwin':
-    trans_recorder = tktt.TTButton(transcription_frame, text='Transcribe File(s)', command=transcribe, fg="green",
+        trans_recorder = tk.Button(transcription_frame, text='Transcribe File(s)', command=transcribe, fg="green",
                                    bg=bg_color)
-else:
-    trans_recorder = tk.Button(transcription_frame, text='Transcribe File(s)', command=transcribe, fg="green",
-                               bg=bg_color)
-trans_recorder.pack(side="left", fill='x', expand=True)
+    trans_recorder.pack(side="left", fill='x', expand=True)
 
-ex_root.conversation = tk.BooleanVar()
-converse_button = tk.Checkbutton(conversation_frame, text='Conversation', bg=bg_color, variable=ex_root.conversation,
-                                 onvalue=True, offvalue=False)
-converse_button.pack(fill='x', expand=True)
+    ex_root.conversation = tk.BooleanVar()
+    converse_button = tk.Checkbutton(conversation_frame, text='Conversation', bg=bg_color, variable=ex_root.conversation,
+                                     onvalue=True, offvalue=False)
+    converse_button.pack(fill='x', expand=True)
 
-button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
-button_spacer.pack(side="left", fill='x', expand=True)
-if platform.system() == 'Darwin':
-    show_button = tktt.TTButton(quit_frame, text='Show All', command=show_all, fg="white", bg="lightgray")
-else:
-    show_button = tk.Button(quit_frame, text='Show All', command=show_all, fg="white", bg="lightgray")
-show_button.pack(side="left", fill='x', expand=True)
+    button_spacer = tk.Label(quit_frame, text=' ', bg=bg_color)
+    button_spacer.pack(side="left", fill='x', expand=True)
+    if platform.system() == 'Darwin':
+        show_button = tktt.TTButton(quit_frame, text='Show All', command=show_all, fg="white", bg="lightgray")
+    else:
+        show_button = tk.Button(quit_frame, text='Show All', command=show_all, fg="white", bg="lightgray")
+    show_button.pack(side="left", fill='x', expand=True)
 
-button_spacer = tk.Label(quit_frame, text='          ', bg=bg_color)
-button_spacer.pack(side="left", fill='x', expand=True)
-quit_button = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
-quit_button.pack(side="left", fill='x', expand=True)
+    button_spacer = tk.Label(quit_frame, text='          ', bg=bg_color)
+    button_spacer.pack(side="left", fill='x', expand=True)
+    quit_button = tk.Button(quit_frame, text='Quit', command=quitting, bg=bg_color)
+    quit_button.pack(side="left", fill='x', expand=True)
 
-pic_path = os.path.join(ex_root.script_loc, 'speak_write.png')
-image = tk.Frame(pic_frame, borderwidth=2, bg=box_color)
-image.pack(side=tk.TOP, fill="x")
-image.picture = tk.PhotoImage(file=pic_path)
-image.label = tk.Label(image, image=image.picture)
-image.label.pack()
+    pic_path = os.path.join(ex_root.script_loc, 'speak_write.png')
+    image = tk.Frame(pic_frame, borderwidth=2, bg=box_color)
+    image.pack(side=tk.TOP, fill="x")
+    image.picture = tk.PhotoImage(file=pic_path)
+    image.label = tk.Label(image, image=image.picture)
+    image.label.pack()
 
-# Begin
-root.mainloop()
+    # Begin
+    master.mainloop()
