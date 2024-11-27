@@ -26,7 +26,7 @@ class Begini(ConfigParser):
         if platform.system() == 'Linux':
             self.username = os.getlogin()
             config_txt = os.path.splitext(config_basename)[0] + '_linux.ini'
-            self.config_path = os.path.join('/home', self.username, '.local', config_txt)
+            self.config_file_path = os.path.join('/home', self.username, '.local', config_txt)
         elif platform.system() == 'Darwin':
             self.username = os.path.expanduser('~')
             config_txt = os.path.splitext(config_basename)[0] + '_macos.ini'
