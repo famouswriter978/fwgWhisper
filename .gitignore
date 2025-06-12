@@ -15,3 +15,5 @@ speak_write.py alias
 speak_write copy.py
 speak_write.spec
 speak_write.spec
+*.iml
+*.xml
